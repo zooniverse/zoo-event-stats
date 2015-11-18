@@ -1,0 +1,17 @@
+elasticsearch:
+  image: elasticsearch:1.7.3
+  ports:
+    - "9200:9200"
+    - "9300:9300"
+
+zoostats:
+  dockerfile: Dockerfile
+  build: .
+  # volumes:
+  #   - ./csv_data:/home/ubuntu/csv_data
+  # ports:
+  #   - "3000:80"
+  # environment:
+  #   $FLUENTD_OPT: "-v"
+  links:
+    - elasticsearch

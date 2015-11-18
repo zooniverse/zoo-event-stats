@@ -1,0 +1,7 @@
+development:
+  consumer_group: stats-development
+  topic: "events"
+  zookeepers:
+    - localhost:2181
+  brokers:
+    - localhost:9092

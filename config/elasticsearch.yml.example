@@ -1,0 +1,3 @@
+development:
+  hosts:
+    - localhost:9200
