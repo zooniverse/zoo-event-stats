@@ -41,8 +41,11 @@ module Stats
       end
 
       def event_id(event)
-        #TODO: investigate if the event_id is unique across all panoptes / ouroboros event types
-        Digest::SHA1.hexdigest("#{event}")
+        if id = event["event_id"]
+          id
+        else
+          Digest::SHA1.hexdigest("#{event}")
+        end
       end
     end
   end
