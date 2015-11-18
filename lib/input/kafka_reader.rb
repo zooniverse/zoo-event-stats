@@ -11,6 +11,7 @@ module Stats
         @processor = processor
         @consumer = Poseidon::ConsumerGroup.new(group_name, brokers, zookeepers, topic,
                                                 socket_timeout_ms: 20000, max_wait_ms: 1000)
+        # reset_partition_offsets
       end
 
       # Running the Kafka reader will wait until it processes *at least* one message,
