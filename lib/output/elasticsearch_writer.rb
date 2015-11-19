@@ -29,15 +29,20 @@ module Stats
         client.get doc_defaults.merge(id: id)
       end
 
-      def write(event)
-        id = event_id(event)
-        doc = doc_defaults.merge(body: event, id: id)
+      def write(events)
         #TODO: look into making this no-op upserts instead of updates
-        client.index(doc)
+
+        operations = events.map do |event|
+          id = event_id(event)
+          doc = doc_defaults.merge(data: event, _id: id)
+          {index: doc}
+        end
+
+        client.bulk body: operations
       end
 
       def doc_defaults
-        { index: config[:index], type: config[:type] }
+        { _index: config[:index], _type: config[:type] }
       end
 
       def event_id(event)

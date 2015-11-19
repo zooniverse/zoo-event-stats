@@ -46,15 +46,16 @@ module Stats
         id = nil
         ok = @consumer.fetch do |partition, messages|
           id = partition
-          messages.each do |message|
+          parsed_messages = messages.map do |message|
             count += 1
             begin
-              processor.process(JSON.parse(message.value))
+              JSON.parse(message.value)
             rescue JSON::ParserError => e
               puts "Error reading events message, no stats for you..."
               puts message.value
             end
-          end
+          end.compact
+          processor.process(parsed_messages)
         end
 
         if ok
