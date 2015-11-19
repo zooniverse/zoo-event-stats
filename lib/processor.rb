@@ -6,13 +6,14 @@ module Stats
       @output  = output
     end
 
-    def process(event)
-      type = event_type(event)
-      if known_event?(event_model(type))
-        output.write(event)
-      else
-        puts "not sure what event type this is..#{type}"
+    def process(events)
+      return if events.empty?
+
+      known_events = events.select do |event|
+        type = event_type(event)
+        known_event?(event_model(type))
       end
+      output.write(known_events)
     end
 
     private
