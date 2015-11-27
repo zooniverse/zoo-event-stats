@@ -4,7 +4,7 @@ MAINTAINER Campbell Allen
 
 WORKDIR /zoo_stats
 
-ADD ./Gemfile /zoostats/
+ADD ./Gemfile /zoo_stats/
 ADD ./Gemfile.lock /zoo_stats/
 
 #RUN bundle install --without development test
