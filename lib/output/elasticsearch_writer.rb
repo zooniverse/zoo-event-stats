@@ -34,7 +34,7 @@ module Stats
 
         operations = events.map do |event|
           id = event_id(event)
-          doc = doc_defaults.merge(data: event, _id: id)
+          doc = doc_defaults.merge(data: event, _id: id, op_type: "create")
           {index: doc}
         end
 
