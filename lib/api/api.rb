@@ -7,32 +7,41 @@ module Stats
     class Api < Sinatra::Base
 
       get '/counts/?:type?/?:interval?' do
-        type = event_type(params[:type])
-        interval = interval(params[:interval])
-        query = event_type_query(type, params[:project_id])
-          .merge(datetime_histogram(interval))
-        json histogram_count(query)
+        results = histogram_count
+        json format_results(results)
       end
 
       private
 
-      def event_type(type)
-        type || "classification"
+      def format_results(results)
+        if params.has_key?("es_format")
+          results
+        else
+          results["aggregations"]
+        end
       end
 
-      def interval(interval)
-        interval || "month"
+      def event_type
+        params[:type] || "classification"
       end
 
-      def histogram_count(es_query)
+      def interval
+        params[:interval] || "month"
+      end
+
+      def histogram_count
         es_client.search(
           index: search_client.config[:index],
-          search_type: "count",
-          body: es_query
+          search_type: es_search_type,
+          body: event_type_query(event_type).merge(datetime_histogram(interval))
         )
       end
 
-      def event_type_query(type, project_id=nil)
+      def es_search_type
+         params[:query_results] ? "query_then_fetch" : "count"
+      end
+
+      def event_type_query(type, project_id=params[:project_id])
         type_filter = { match: { event_type: type } }
         query = if project_id
           {
