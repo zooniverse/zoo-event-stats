@@ -19,6 +19,6 @@ EXPOSE 80
 
 ADD ./ /zoo_stats
 
-ADD supervisor.conf /etc/supervisor/conf.d/zoo_event_stats.conf
+ADD supervisord.conf /etc/supervisor/conf.d/zoo_event_stats.conf
 
 ENTRYPOINT exec /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
