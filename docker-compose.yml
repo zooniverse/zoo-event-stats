@@ -5,13 +5,9 @@ elasticsearch:
     - "9300:9300"
 
 zoostats:
-  dockerfile: Dockerfile
+  dockerfile: Dockerfile.dev
   build: .
-  # volumes:
-  #   - ./csv_data:/home/ubuntu/csv_data
-  # ports:
-  #   - "3000:80"
-  # environment:
-  #   $FLUENTD_OPT: "-v"
+  ports:
+    - "3000:3000"
   links:
     - elasticsearch

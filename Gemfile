@@ -12,4 +12,5 @@ group :development do
   gem 'rerun'
   gem 'pry'
   gem 'awesome_print'
+  gem 'foreman'
 end

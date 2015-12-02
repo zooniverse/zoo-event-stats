@@ -2,14 +2,23 @@ FROM zooniverse/ruby:2.2.1
 
 MAINTAINER Campbell Allen
 
+# Apt-get install dependencies
+RUN apt-get update && \
+    apt-get -y upgrade && \
+    apt-get install -y supervisor && \
+    apt-get clean
+
 WORKDIR /zoo_stats
 
 ADD ./Gemfile /zoo_stats/
 ADD ./Gemfile.lock /zoo_stats/
 
-#RUN bundle install --without development test
-RUN bundle install
+RUN bundle install --without development test
+
+EXPOSE 80
 
 ADD ./ /zoo_stats
 
-CMD exec bin/start
+ADD supervisor.conf /etc/supervisor/conf.d/zoo_event_stats.conf
+
+ENTRYPOINT exec /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
