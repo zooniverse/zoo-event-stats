@@ -14,7 +14,7 @@ module Stats
       private
 
       def defaults
-        @defaults = { log: true, index: 'zoo-events' }
+        @defaults = { log: Stats::Config.rack_development?, index: 'zoo-events' }
       end
 
       def es_config

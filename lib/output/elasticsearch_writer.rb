@@ -3,8 +3,8 @@ module Stats
     class ElasticsearchWriter
       attr_reader :config, :client
 
-      def initialize(es_config=nil)
-        defaults = { log: true, index: 'zoo-events', type: 'event' }
+      def initialize(es_config)
+        defaults = { index: 'zoo-events', type: 'event' }
         @config = defaults.merge(hosts: es_config["hosts"])
         @client = Elasticsearch::Client.new(config)
       end
@@ -12,18 +12,6 @@ module Stats
       def health
         client.cluster.health
       end
-
-      # def index
-      #   client.index index: config[:index], type: 'my-document', id: 1, body: { title: 'Test' }
-      # end
-
-      # def refresh_index
-      #   client.indices.refresh index: config[:index]
-      # end
-
-      # def search
-      #   client.search index: config["index"], body: { query: { match: { title: 'test' } } }
-      # end
 
       def get(id)
         client.get doc_defaults.merge(id: id)
