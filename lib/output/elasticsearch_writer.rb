@@ -3,8 +3,8 @@ module Stats
     class ElasticsearchWriter
       attr_reader :config, :client
 
-      def initialize(es_config=nil)
-        defaults = { log: true, index: 'zoo-events', type: 'event' }
+      def initialize(es_config)
+        defaults = { index: 'zoo-events', type: 'event' }
         @config = defaults.merge(hosts: es_config["hosts"])
         @client = Elasticsearch::Client.new(config)
       end

@@ -14,7 +14,7 @@ require_relative '../lib/models/classification'
 
 puts "Starting Stream Reader"
 
-es_config = Stats::Config.load_yaml('elasticsearch.yml', environment)
+es_config = Stats::Config.load_yaml('elasticsearch.yml', environment).merge(log: Stats::Config.stats_development?)
 output  = Stats::Output::ElasticsearchWriter.new(es_config)
 processor = Stats::Processor.new(output)
 
