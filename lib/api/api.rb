@@ -11,10 +11,19 @@ module Stats
         interval = interval(params[:interval])
         query = event_type_query(type, params[:project_id])
           .merge(datetime_histogram(interval))
-        json histogram_count(query)
+        results = histogram_count(query)
+        json format_results(results)
       end
 
       private
+
+      def format_results(results)
+        if params.has_key?("es_format")
+          results
+        else
+          results["aggregations"]
+        end
+      end
 
       def event_type(type)
         type || "classification"
