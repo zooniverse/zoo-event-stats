@@ -34,8 +34,7 @@ module Stats
       # move this to matching on event_type when this is in
       # https://github.com/zooniverse/Panoptes/issues/1525
       def event_type_query(type)
-        # { query: { match: { event_type: type } } }
-        { query: { wildcard: { event_type: "*.#{type}" } } }
+        { query: { match: { event_type: type } } }
       end
 
       def datetime_histogram(interval)

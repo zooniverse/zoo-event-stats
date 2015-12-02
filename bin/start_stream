@@ -12,8 +12,7 @@ require_relative '../lib/processor'
 require_relative '../lib/output/elasticsearch_writer'
 require_relative '../lib/models/classification'
 
-
-puts "Starting"
+puts "Starting Stream Reader"
 
 es_config = Stats::Config.load_yaml('elasticsearch.yml', environment)
 output  = Stats::Output::ElasticsearchWriter.new(es_config)
@@ -26,7 +25,7 @@ kafka_reader = Stats::Input::KafkaReader.new(processor:  processor,
                                              brokers:    kafka_config.fetch('brokers'),
                                              topic:      kafka_config.fetch('topic'))
 
-puts "Started"
+puts "Started Stream Reader"
 
 loop do
   kafka_reader.run

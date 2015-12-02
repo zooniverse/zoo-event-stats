@@ -30,11 +30,10 @@ module Stats
       end
 
       def write(events)
-        #TODO: look into making this no-op upserts instead of updates
-
         operations = events.map do |event|
-          id = event_id(event)
-          doc = doc_defaults.merge(data: event, _id: id, op_type: "create")
+          formatter = EventFormatter.new(event)
+          data = event.merge("event_type" => formatter.type, "event_source" => formatter.source)
+          doc = doc_defaults.merge(data: data, _id: formatter.id, op_type: "create")
           {index: doc}
         end
 
@@ -45,11 +44,36 @@ module Stats
         { _index: config[:index], _type: config[:type] }
       end
 
-      def event_id(event)
-        if id = event["event_id"]
-          id
-        else
-          Digest::SHA1.hexdigest("#{event}")
+      private
+
+      class EventFormatter
+
+        attr_reader :event
+
+        def initialize(event)
+          @event = event
+        end
+
+        def id
+          if id = event["event_id"]
+            id
+          else
+            Digest::SHA1.hexdigest("#{event}")
+          end
+        end
+
+        def source
+          event_type_details[0] || "unknown"
+        end
+
+        def type
+          event_type_details[1] || event["event_type"]
+        end
+
+        private
+
+        def event_type_details
+          event["event_type"].split(".")
         end
       end
     end
