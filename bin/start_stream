@@ -1,9 +1,10 @@
 #!/usr/bin/env ruby
 require 'rubygems'
 require 'bundler/setup'
-require 'yaml'
 
-environment = ENV["ZOO_STATS_ENV"] || :development
+require_relative '../lib/config'
+
+environment = Stats::Config.stats_environment
 Bundler.require(:default, environment)
 
 require_relative '../lib/input/kafka_reader'
@@ -11,18 +12,14 @@ require_relative '../lib/processor'
 require_relative '../lib/output/elasticsearch_writer'
 require_relative '../lib/models/classification'
 
-def load_config(filename, environment)
-  path = File.expand_path(File.join('..', '..', 'config', filename), __FILE__)
-  YAML.load_file(path).fetch(environment.to_s)
-end
 
 puts "Starting"
 
-es_config = load_config('elasticsearch.yml', environment)
+es_config = Stats::Config.load_yaml('elasticsearch.yml', environment)
 output  = Stats::Output::ElasticsearchWriter.new(es_config)
 processor = Stats::Processor.new(output)
 
-kafka_config = load_config('kafka.yml', environment)
+kafka_config = Stats::Config.load_yaml('kafka.yml', environment)
 kafka_reader = Stats::Input::KafkaReader.new(processor:  processor,
                                              zookeepers: kafka_config.fetch('zookeepers'),
                                              group_name: kafka_config.fetch('consumer_group'),
