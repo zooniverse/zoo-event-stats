@@ -11,4 +11,4 @@ RUN bundle install
 
 ADD ./ /zoo_stats
 
-CMD bundle exec foreman start
+ENTRYPOINT /zoo_stats/bin/start.sh

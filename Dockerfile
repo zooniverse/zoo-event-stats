@@ -21,4 +21,4 @@ ADD ./ /zoo_stats
 
 ADD supervisord.conf /etc/supervisor/conf.d/zoo_event_stats.conf
 
-ENTRYPOINT exec /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
+ENTRYPOINT /zoo_stats/bin/start.sh
