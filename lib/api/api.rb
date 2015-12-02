@@ -9,7 +9,9 @@ module Stats
       get '/counts/?:type?/?:interval?' do
         type = event_type(params[:type])
         interval = interval(params[:interval])
-        json histogram_count(type, interval)
+        query = event_type_query(type, params[:project_id])
+          .merge(datetime_histogram(interval))
+        json histogram_count(query)
       end
 
       private
@@ -22,19 +24,26 @@ module Stats
         interval || "month"
       end
 
-      def histogram_count(type, interval)
+      def histogram_count(es_query)
         es_client.search(
           index: search_client.config[:index],
           search_type: "count",
-          body: event_type_query(type).merge(datetime_histogram(interval))
+          body: es_query
         )
       end
 
-      # TODO: dont use wildcards for suffix matching as it's not efficient,
-      # move this to matching on event_type when this is in
-      # https://github.com/zooniverse/Panoptes/issues/1525
-      def event_type_query(type)
-        { query: { match: { event_type: type } } }
+      def event_type_query(type, project_id=nil)
+        type_filter = { match: { event_type: type } }
+        query = if project_id
+          {
+            bool: {
+              must: [ type_filter, { match: { project_id: project_id } } ]
+            }
+          }
+        else
+          type_filter
+        end
+        { query: query }
       end
 
       def datetime_histogram(interval)
