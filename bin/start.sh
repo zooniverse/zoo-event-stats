@@ -2,6 +2,8 @@
 
 cd /zoo_stats
 
+mkdir -p log/
+
 if [ -d "/zoo_stats_config/" ]
 then
     ln -sf /zoo_stats_config/* ./config/
