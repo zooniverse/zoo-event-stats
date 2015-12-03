@@ -1,4 +1,4 @@
-require_relative '../elasticsearch/client'
+require_relative '../es/client'
 
 module Stats
   module Output
@@ -6,7 +6,7 @@ module Stats
       attr_reader :config, :client
 
       def initialize(es_config)
-        @search_client = Stats::Elasticsearch::Client.new(:stats)
+        @search_client = Stats::Es::Client.new(:stats)
         @config = @search_client.config
         @client = @search_client.es_client
       end

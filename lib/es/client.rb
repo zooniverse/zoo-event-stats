@@ -2,7 +2,7 @@ require_relative '../config'
 require 'faraday_middleware/aws_signers_v4'
 
 module Stats
-  module Elasticsearch
+  module Es
     class Client
 
       attr_reader :service, :config, :es_client, :defaults
@@ -17,9 +17,9 @@ module Stats
 
       def build_client
         if dev_env?
-          ::Elasticsearch::Client.new(config)
+          Elasticsearch::Client.new(config)
         else
-          ::Elasticsearch::Client.new(config) do |f|
+          Elasticsearch::Client.new(config) do |f|
             f.request :aws_signers_v4,
               credentials: Aws::Credentials.new(es_config["aws_key"], es_config["aws_secret"]),
               service_name: 'es',
