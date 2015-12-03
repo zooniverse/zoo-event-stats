@@ -14,11 +14,11 @@ module Stats
       private
 
       def format_results(results)
-        if params.has_key?("es_format")
-          results
-        else
-          results["aggregations"]
-        end
+        es_format? ? results : results["aggregations"]
+      end
+
+      def es_format?
+        params.has_key?("es_format")
       end
 
       def event_type
@@ -35,6 +35,9 @@ module Stats
           search_type: es_search_type,
           body: event_type_query(event_type).merge(datetime_histogram(interval))
         )
+      rescue Elasticsearch::Transport::Transport::Errors::BadRequest => e
+        message = es_format? ? e.message : "bad request, giving up."
+        { "aggregations" => { error: message } }
       end
 
       def es_search_type
