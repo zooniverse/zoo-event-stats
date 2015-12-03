@@ -1,0 +1,6 @@
+.vagrant
+.ruby-gemset
+.ruby-version
+.bundle
+.git
+log/*
