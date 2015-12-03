@@ -1,12 +1,14 @@
+require_relative '../es/client'
+
 module Stats
   module Output
     class ElasticsearchWriter
       attr_reader :config, :client
 
       def initialize(es_config)
-        defaults = { index: 'zoo-events', type: 'event' }
-        @config = defaults.merge(hosts: es_config["hosts"])
-        @client = Elasticsearch::Client.new(config)
+        @search_client = Stats::Es::Client.new(:stats)
+        @config = @search_client.config
+        @client = @search_client.es_client
       end
 
       def health
@@ -29,7 +31,7 @@ module Stats
       end
 
       def doc_defaults
-        { _index: config[:index], _type: config[:type] }
+        { _index: config[:index], _type: "event" }
       end
 
       private
