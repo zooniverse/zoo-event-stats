@@ -10,7 +10,6 @@ Bundler.require(:default, environment)
 require_relative '../lib/input/kafka_reader'
 require_relative '../lib/processor'
 require_relative '../lib/output/elasticsearch_writer'
-require_relative '../lib/models/classification'
 
 puts "Starting Stream Reader"
 

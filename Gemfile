@@ -4,6 +4,7 @@ source "https://rubygems.org"
 gem 'poseidon'
 gem 'poseidon_cluster'
 gem 'elasticsearch'
+gem 'faraday_middleware-aws-signers-v4'
 gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'puma'

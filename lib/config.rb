@@ -25,5 +25,16 @@ module Stats
     def self.stats_development?
       stats_environment == DEV_ENV
     end
+
+    def self.service_env(service)
+      case service
+      when :api
+        rack_environment
+      when :stats
+        stats_environment
+      else
+        "development"
+      end
+    end
   end
 end

@@ -1,6 +1,6 @@
 require 'sinatra'
 require "sinatra/json"
-require_relative 'elasticsearch_client'
+require_relative '../elasticsearch/client'
 
 module Stats
   module Api
@@ -76,7 +76,7 @@ module Stats
       end
 
       def search_client
-        @search_client ||= Stats::Api::ElasticsearchClient.new
+        @search_client ||= Stats::Elasticsearch::Client.new(:api)
       end
 
       def es_client
