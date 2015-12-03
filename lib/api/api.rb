@@ -11,6 +11,10 @@ module Stats
         json format_results(results)
       end
 
+      get '/*' do
+        json({ "health" => "ok" })
+      end
+
       private
 
       def format_results(results)
