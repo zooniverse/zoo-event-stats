@@ -5,7 +5,7 @@ module Stats
     class ElasticsearchWriter
       attr_reader :config, :client
 
-      def initialize(es_config)
+      def initialize
         @search_client = Stats::Es::Client.new(:stats)
         @config = @search_client.config
         @client = @search_client.es_client
