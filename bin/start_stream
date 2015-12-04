@@ -13,8 +13,7 @@ require_relative '../lib/output/elasticsearch_writer'
 
 puts "Starting Stream Reader"
 
-es_config = Stats::Config.load_yaml('elasticsearch.yml', environment).merge(log: Stats::Config.stats_development?)
-output  = Stats::Output::ElasticsearchWriter.new(es_config)
+output  = Stats::Output::ElasticsearchWriter.new
 processor = Stats::Processor.new(output)
 
 kafka_config = Stats::Config.load_yaml('kafka.yml', environment)
