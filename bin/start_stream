@@ -10,11 +10,18 @@ Bundler.require(:default, environment)
 require_relative '../lib/input/kafka_reader'
 require_relative '../lib/processor'
 require_relative '../lib/output/elasticsearch_writer'
+require_relative '../lib/output/pusher_writer'
 
 puts "Starting Stream Reader"
 
-output  = Stats::Output::ElasticsearchWriter.new
-processor = Stats::Processor.new(output)
+Pusher.url = ENV.fetch("PUSHER_URL")
+
+outputs = [
+  Stats::Output::ElasticsearchWriter.new,
+  Stats::Output::PusherWriter.new
+]
+
+processor = Stats::Processor.new(outputs)
 
 kafka_config = Stats::Config.load_yaml('kafka.yml', environment)
 kafka_reader = Stats::Input::KafkaReader.new(processor:  processor,
