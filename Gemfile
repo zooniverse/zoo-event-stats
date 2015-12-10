@@ -8,6 +8,7 @@ gem 'faraday_middleware-aws-signers-v4'
 gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'puma'
+gem 'pusher'
 
 group :development do
   gem 'rerun'

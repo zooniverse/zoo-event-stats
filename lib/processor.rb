@@ -1,9 +1,9 @@
 module Stats
   class Processor
-    attr_reader :output
+    attr_reader :outputs
 
-    def initialize(output)
-      @output  = output
+    def initialize(outputs)
+      @outputs  = outputs
     end
 
     def process(events)
@@ -13,7 +13,7 @@ module Stats
         type = event_type(event)
         known_event?(event_model(type))
       end
-      output.write(known_events)
+      outputs.each { |output| output.write(known_events) }
     end
 
     private

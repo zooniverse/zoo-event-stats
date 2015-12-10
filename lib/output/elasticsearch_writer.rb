@@ -37,7 +37,6 @@ module Stats
       private
 
       class EventFormatter
-
         attr_reader :event
 
         def initialize(event)
