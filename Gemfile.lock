@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/camallen/sinatra-cross_origin.git
+  revision: ff14288f37211c9e42a2bfd24dfb4e941cd355d5
+  branch: regex_origins
+  specs:
+    sinatra-cross_origin (0.3.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -96,6 +103,7 @@ DEPENDENCIES
   rerun
   sinatra
   sinatra-contrib
+  sinatra-cross_origin!
 
 BUNDLED WITH
    1.10.6
