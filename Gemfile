@@ -9,6 +9,8 @@ gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'puma'
 gem 'pusher'
+gem 'geocoder'
+gem 'maxminddb'
 
 group :development do
   gem 'rerun'

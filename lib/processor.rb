@@ -13,6 +13,11 @@ module Stats
         type = event_type(event)
         known_event?(event_model(type))
       end
+
+      known_events = known_events.map do |event|
+        strip_private_fields(geolocate(event))
+      end
+
       outputs.each { |output| output.write(known_events) }
     end
 
@@ -32,6 +37,31 @@ module Stats
 
     def event_type(event)
       event.fetch("event_type", nil)
+    end
+
+    def geolocate(event)
+      return unless event["_ip_address"]
+
+      result = Geocoder.search(event["_ip_address"])
+
+      if match = result[0]
+        event.merge(geo: {
+          country_name: match.country,
+          country_code: match.country_code,
+          city_name: match.city,
+          coordinates: [match.longitude, match.latitude]
+          latitude: match.latitude,
+          longitude: match.longitude
+        })
+      else
+        event
+      end
+    rescue StandardError
+      event
+    end
+
+    def strip_private_fields(event)
+      event.reject { |key| key =~ /\A_/ }
     end
   end
 end
