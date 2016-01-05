@@ -40,7 +40,7 @@ module Stats
     end
 
     def geolocate(event)
-      return unless event["_ip_address"]
+      return event unless event["_ip_address"]
 
       result = Geocoder.search(event["_ip_address"])
 
@@ -49,7 +49,7 @@ module Stats
           country_name: match.country,
           country_code: match.country_code,
           city_name: match.city,
-          coordinates: [match.longitude, match.latitude]
+          coordinates: [match.longitude, match.latitude],
           latitude: match.latitude,
           longitude: match.longitude
         })
