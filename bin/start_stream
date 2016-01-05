@@ -16,6 +16,10 @@ puts "Starting Stream Reader"
 
 Pusher.url = ENV.fetch("PUSHER_URL")
 
+Geocoder.configure(ip_lookup: :geoip2, geoip2: {
+  file: File.expand_path('../../data/GeoLite2-City.mmdb', __FILE__)
+})
+
 outputs = [
   Stats::Output::ElasticsearchWriter.new,
   Stats::Output::PusherWriter.new
