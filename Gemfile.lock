@@ -1,7 +1,6 @@
 GIT
-  remote: https://github.com/camallen/sinatra-cross_origin.git
-  revision: ff14288f37211c9e42a2bfd24dfb4e941cd355d5
-  branch: regex_origins
+  remote: https://github.com/britg/sinatra-cross_origin.git
+  revision: 2a66ffbc91a0e69d6c29d14dbaf92091542e3781
   specs:
     sinatra-cross_origin (0.3.2)
 
