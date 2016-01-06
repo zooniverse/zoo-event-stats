@@ -24,7 +24,7 @@ module Stats
     private
 
     def known_events
-      @known_events ||= %w(classification workflow_counters)
+      @known_events ||= %w(classification workflow_counters talk.comment)
     end
 
     def known_event?(event_model)
