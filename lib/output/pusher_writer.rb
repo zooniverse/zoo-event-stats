@@ -12,7 +12,11 @@ module Stats
       def write(events)
         events.map do |event|
           source, type = event.fetch("event_type").split(".")
-          api.trigger(source, type, event)
+          begin
+            api.trigger(source, type, event)
+          rescue Pusher::Error => e
+            puts "Error writing to pusher - #{e.class}"
+          end
         end
       end
     end
