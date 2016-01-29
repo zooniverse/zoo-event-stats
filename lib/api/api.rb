@@ -88,7 +88,8 @@ module Stats
       end
 
       def cors_origins
-        /^https?:\/\/(127\.0\.0\.1|localhost|[a-z0-9-]+\.zooniverse\.org)(:\d+)?$/
+        cors_origins = ENV["CORS_ORIGINS"] || '([a-z0-9-]+\.zooniverse\.org)'
+        /^https?:\/\/#{cors_origins}(:\d+)?$/
       end
     end
   end
