@@ -1,12 +1,16 @@
 require 'sinatra'
 require "sinatra/json"
+require 'sinatra/cross_origin'
 require_relative '../es/client'
 
 module Stats
   module Api
     class Api < Sinatra::Base
+      register Sinatra::CrossOrigin
 
-      get '/counts/?:type?/?:interval?' do
+      get '/counts/?:type?/?:interval?\/?' do
+        cross_origin :allow_origin => cors_origins,
+          :allowmethods => [:get]
         results = histogram_count
         json format_results(results)
       end
@@ -81,6 +85,11 @@ module Stats
 
       def es_client
         @es_client ||= search_client.es_client
+      end
+
+      def cors_origins
+        cors_origins = ENV["CORS_ORIGINS"] || '([a-z0-9-]+\.zooniverse\.org)'
+        /^https?:\/\/#{cors_origins}(:\d+)?$/
       end
     end
   end

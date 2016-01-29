@@ -23,6 +23,7 @@ zoostats:
   environment:
     RACK_ENV: development
     ZOO_STATS_ENV: development
+    CORS_ORIGINS: '(127\.0\.0\.1|localhost|[a-z0-9-]+\.zooniverse\.org)'
   links:
     - zookeeper:zk
     - kafka
