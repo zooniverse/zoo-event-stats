@@ -5,7 +5,7 @@ MAINTAINER Campbell Allen
 # Apt-get install dependencies
 RUN apt-get update && \
     apt-get -y upgrade && \
-    apt-get install -y supervisor && \
+    apt-get install --no-install-recommends -y git supervisor && \
     apt-get clean
 
 WORKDIR /zoo_stats

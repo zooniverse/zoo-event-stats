@@ -1,6 +1,7 @@
 GIT
-  remote: https://github.com/britg/sinatra-cross_origin.git
+  remote: git://github.com/britg/sinatra-cross_origin.git
   revision: 2a66ffbc91a0e69d6c29d14dbaf92091542e3781
+  branch: master
   specs:
     sinatra-cross_origin (0.3.2)
 
