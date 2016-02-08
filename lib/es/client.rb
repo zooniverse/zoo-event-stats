@@ -38,11 +38,15 @@ module Stats
       end
 
       def defaults
-        @defaults = { log: dev_env?, index: 'zoo-events' }
+        @defaults = { log: es_logging?, index: 'zoo-events' }
       end
 
       def es_config
         @es_config = Stats::Config.load_yaml('elasticsearch.yml', client_env)
+      end
+
+      def es_logging?
+        !!ENV["ES_LOGGING"] || dev_env?
       end
     end
   end
