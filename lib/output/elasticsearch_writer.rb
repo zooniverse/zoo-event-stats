@@ -22,16 +22,26 @@ module Stats
       def write(events)
         operations = events.map do |event|
           formatter = EventFormatter.new(event)
-          data = event.merge("event_type" => formatter.type, "event_source" => formatter.source)
-          doc = doc_defaults.merge(data: data, _id: formatter.id, op_type: "create")
+          doc = doc_defaults.merge(
+            data: event.merge(formatted_data(formatter)),
+            _id: formatter.id,
+            op_type: "create"
+          )
           {index: doc}
         end
-
         client.bulk body: operations
       end
 
       def doc_defaults
         { _index: config[:index], _type: "event" }
+      end
+
+      def formatted_data(formatter)
+        {
+          "event_type" => formatter.type,
+          "event_source" => formatter.source,
+          "event_time" => formatter.time
+        }
       end
 
       private
@@ -57,6 +67,10 @@ module Stats
 
         def type
           event_type_details[1] || event["event_type"]
+        end
+
+        def time
+          DateTime.parse(event["event_time"]).to_s
         end
 
         private
