@@ -1,12 +1,14 @@
-FROM zooniverse/ruby:2.2.1
+FROM zooniverse/ruby:2.3.0
 
 MAINTAINER Campbell Allen
 
 # Apt-get install dependencies
 RUN apt-get update && \
     apt-get -y upgrade && \
-    apt-get install --no-install-recommends -y git supervisor && \
+    apt-get install --no-install-recommends -y git supervisor openjdk-7-jre-headless && \
     apt-get clean
+
+ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64
 
 WORKDIR /zoo_stats
 
@@ -14,6 +16,9 @@ ADD ./Gemfile /zoo_stats/
 ADD ./Gemfile.lock /zoo_stats/
 
 RUN bundle install --without development test
+
+ADD ./Rakefile /zoo_stats/
+RUN rake download_jars
 
 EXPOSE 80
 

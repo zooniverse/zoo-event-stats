@@ -9,15 +9,12 @@ module Stats
         @api = api
       end
 
-      def write(events)
-        events.map do |event|
-          source, type = event.fetch("event_type").split(".")
-          begin
-            api.trigger(source, type, event)
-          rescue Pusher::Error => e
-            puts "Error writing to pusher - #{e.class}"
-          end
+      def write(models)
+        models.each do |model|
+          api.trigger(model.source, model.type, model.attributes)
         end
+      rescue Pusher::Error => e
+        puts "Error writing to pusher - #{e.class}"
       end
     end
   end

@@ -19,17 +19,19 @@ module Stats
         client.get doc_defaults.merge(id: id)
       end
 
-      def write(events)
-        operations = events.map do |event|
-          formatter = EventFormatter.new(event)
-          doc = doc_defaults.merge(
-            data: event.merge(formatted_data(formatter)),
-            _id: formatter.id,
-            op_type: "create"
-          )
-          {index: doc}
-        end
+      def write(models)
+        operations = models.map { |model| operation_for_model(model) }
         client.bulk body: operations
+      end
+
+      def operation_for_model(model)
+        formatter = ModelFormatter.new(model)
+        doc = doc_defaults.merge(
+          data: model.attributes.merge(formatted_data(formatter)),
+          _id: formatter.id,
+          op_type: "create"
+        )
+        {index: doc}
       end
 
       def doc_defaults
@@ -46,7 +48,7 @@ module Stats
 
       private
 
-      class EventFormatter
+      class ModelFormatter
         attr_reader :event
 
         def initialize(event)
@@ -54,23 +56,19 @@ module Stats
         end
 
         def id
-          if id = event["event_id"]
-            id
-          else
-            Digest::SHA1.hexdigest("#{event}")
-          end
+          event.id
         end
 
         def source
-          event_type_details[0] || "unknown"
+          event.source || "unknown"
         end
 
         def type
-          event_type_details[1] || event["event_type"]
+          event.type
         end
 
         def time
-          DateTime.parse(event["event_time"]).to_s
+          event.timestamp && event.timestamp.to_s
         end
 
         private
