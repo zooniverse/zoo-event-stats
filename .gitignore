@@ -1,2 +1,4 @@
 .ruby-*
 config/*.yml
+jars/*.jar
+streamer.properties

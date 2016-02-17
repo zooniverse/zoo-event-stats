@@ -7,12 +7,12 @@ require_relative '../lib/config'
 environment = Stats::Config.stats_environment
 Bundler.require(:default, environment)
 
-require_relative '../lib/input/kafka_reader'
+require_relative '../lib/input/kcl_reader'
 require_relative '../lib/processor'
 require_relative '../lib/output/elasticsearch_writer'
 require_relative '../lib/output/pusher_writer'
 
-puts "Starting Stream Reader"
+STDERR.puts "Starting Stream Reader"
 
 Pusher.url = ENV.fetch("PUSHER_URL")
 
@@ -27,16 +27,6 @@ outputs = [
 
 processor = Stats::Processor.new(outputs)
 
-kafka_config = Stats::Config.load_yaml('kafka.yml', environment)
-kafka_reader = Stats::Input::KafkaReader.new(processor:  processor,
-                                             zookeepers: kafka_config.fetch('zookeepers'),
-                                             group_name: kafka_config.fetch('consumer_group'),
-                                             brokers:    kafka_config.fetch('brokers'),
-                                             topic:      kafka_config.fetch('topic'))
-
-puts "Started Stream Reader"
-
-loop do
-  kafka_reader.run
-  sleep 5
-end
+kcl_reader   = Stats::Input::KclReader.new(processor)
+driver       = Aws::KCLrb::KCLProcess.new(kcl_reader)
+driver.run
