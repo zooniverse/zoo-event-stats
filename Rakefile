@@ -88,8 +88,6 @@ task :stream => [:download_jars, "streamer.properties"] do |t|
   commands = %W(
     #{ENV['JAVA_HOME']}/bin/java
     -classpath #{classpath}
-    -DinitialPositionInStream=LATEST
-    -DapplicationName=martentest1
     com.amazonaws.services.kinesis.multilang.MultiLangDaemon streamer.properties
   )
   sh *commands
