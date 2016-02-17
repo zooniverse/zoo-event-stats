@@ -27,7 +27,6 @@ outputs = [
 
 processor = Stats::Processor.new(outputs)
 
-kafka_config = Stats::Config.load_yaml('kafka.yml', environment)
 kcl_reader   = Stats::Input::KclReader.new(processor)
 driver       = Aws::KCLrb::KCLProcess.new(kcl_reader)
 driver.run
