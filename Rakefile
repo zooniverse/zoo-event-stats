@@ -62,7 +62,7 @@ end
 file "streamer.properties" do
   puts "Generating properties file"
   envname = ENV.fetch("ZOO_STATS_ENV", "development")
-  stream_name = "panoptes-#{envname}"
+  stream_name = "zooniverse-#{envname}"
   application_name = "zoo-event-stats-#{envname}"
 
   File.open("streamer.properties", "w") do |file|
