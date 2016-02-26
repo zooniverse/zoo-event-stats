@@ -3,6 +3,7 @@ require_relative 'models/panoptes_classification'
 require_relative 'models/panoptes_workflow_counter'
 require_relative 'models/talk_comment'
 require_relative 'models/ouroboros_classification'
+require_relative 'models/ouroboros_comment'
 
 module Models
   REGISTRY = {
@@ -14,7 +15,8 @@ module Models
       "comment" => Models::TalkComment
     },
     "ouroboros" => {
-      "classification" => Models::OuroborosClassification
+      "classification" => Models::OuroborosClassification,
+      "comment" => Models::OuroborosComment
     }
   }
 
