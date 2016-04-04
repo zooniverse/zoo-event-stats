@@ -31,10 +31,10 @@ module Models
 
     def format_language(data)
       lang = find_annotation_with_key(data["annotations"], "language")
-      
+
       if lang == "$DEFAULT"
         "en-US"
-      elsif [5,2].include?(lang.size)
+      elsif lang && [5,2].include?(lang.size)
         lang
       else
         "Unknown"
@@ -51,7 +51,7 @@ module Models
 
     def find_annotation_with_key(annotations, key)
       return unless annotations
-      annotation = annotations.find { |annotation| annotation.key?(key) }
+      annotation = annotations.find { |ann| ann.key?(key) }
       annotation[key] if annotation
     end
   end
