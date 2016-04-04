@@ -4,17 +4,6 @@ elasticsearch:
   #   - "9200:9200"
   #   - "9300:9300"
 
-zookeeper:
-  image: zooniverse/zookeeper
-  command: /usr/share/zookeeper/bin/zkServer.sh start-foreground -c localhost:2888:3888 -i 1
-
-kafka:
-  image: zooniverse/kafka
-  hostname: kafka
-  command: -i 1 -H kafka -p 9092 -z zk:2181
-  links:
-    - zookeeper:zk
-
 zoostats:
   dockerfile: Dockerfile.dev
   build: .
@@ -25,6 +14,4 @@ zoostats:
     ZOO_STATS_ENV: development
     CORS_ORIGINS: '(127\.0\.0\.1|localhost|[a-z0-9-]+\.zooniverse\.org)'
   links:
-    - zookeeper:zk
-    - kafka
     - elasticsearch
