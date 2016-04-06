@@ -52,12 +52,12 @@ module Stats
          params[:query_results] ? "query_then_fetch" : "count"
       end
 
-      def event_type_query(type, project_id=params[:project_id])
+      def event_type_query(type)
         type_filter = { match: { event_type: type } }
-        query = if project_id
+        query = unless query_filters.empty?
           {
             bool: {
-              must: [ type_filter, { match: { project_id: project_id } } ]
+              must: [ type_filter, *query_filters ]
             }
           }
         else
@@ -77,6 +77,28 @@ module Stats
             }
           }
         }
+      end
+
+      def query_filters
+        return @query_filters if @query_filters
+        filters = { project_id: project_id, workflow_id: workflow_id }
+        @query_filters = filters.map do |key, value|
+          { match: { key => value } } if value
+        end.compact
+      end
+
+      def project_id
+        @project_id ||= safe(params[:project_id])
+      end
+
+      def workflow_id
+        @worklfow_id ||= safe(params[:workflow_id])
+      end
+
+      def safe(input)
+        if match = /\A(\d+)\z/.match(input)
+          match[1]
+        end
       end
 
       def search_client
