@@ -36,5 +36,9 @@ module Stats
         "development"
       end
     end
+
+    def self.rollbar_token
+      ENV["ROLLBAR_ACCESS_TOKEN"]
+    end
   end
 end

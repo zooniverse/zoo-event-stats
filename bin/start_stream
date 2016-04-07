@@ -7,26 +7,36 @@ require_relative '../lib/config'
 environment = Stats::Config.stats_environment
 Bundler.require(:default, environment)
 
-require_relative '../lib/input/kcl_reader'
-require_relative '../lib/processor'
-require_relative '../lib/output/elasticsearch_writer'
-require_relative '../lib/output/pusher_writer'
+require 'rollbar'
+Rollbar.configure do |config|
+  config.access_token = Stats::Config.rollbar_token
+  config.environment  = Stats::Config.stats_environment
+  config.enabled      = !Stats::Config.stats_development?
+end
 
-STDERR.puts "Starting Stream Reader"
+begin
+  require_relative '../lib/input/kcl_reader'
+  require_relative '../lib/processor'
+  require_relative '../lib/output/elasticsearch_writer'
+  require_relative '../lib/output/pusher_writer'
 
-Pusher.url = ENV.fetch("PUSHER_URL")
+  STDERR.puts "Starting Stream Reader"
+  Pusher.url = ENV.fetch("PUSHER_URL")
+  Geocoder.configure(ip_lookup: :geoip2, geoip2: {
+    file: File.expand_path('../../data/GeoLite2-City.mmdb', __FILE__)
+  })
 
-Geocoder.configure(ip_lookup: :geoip2, geoip2: {
-  file: File.expand_path('../../data/GeoLite2-City.mmdb', __FILE__)
-})
+  outputs = [
+    Stats::Output::ElasticsearchWriter.new,
+    Stats::Output::PusherWriter.new
+  ]
 
-outputs = [
-  Stats::Output::ElasticsearchWriter.new,
-  Stats::Output::PusherWriter.new
-]
+  processor = Stats::Processor.new(outputs)
 
-processor = Stats::Processor.new(outputs)
-
-kcl_reader   = Stats::Input::KclReader.new(processor)
-driver       = Aws::KCLrb::KCLProcess.new(kcl_reader)
-driver.run
+  kcl_reader   = Stats::Input::KclReader.new(processor)
+  driver       = Aws::KCLrb::KCLProcess.new(kcl_reader)
+  driver.run
+rescue Exception => ex
+  Rollbar.error(ex)
+  raise ex
+end
