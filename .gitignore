@@ -1,3 +1,4 @@
+.envrc
 .ruby-*
 config/*.yml
 jars/*.jar

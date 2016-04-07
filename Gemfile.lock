@@ -75,11 +75,14 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
+    rake (11.1.2)
     rb-fsevent (0.9.6)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
     rerun (0.11.0)
       listen (~> 3.0)
+    rollbar (2.8.3)
+      multi_json
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
@@ -125,7 +128,9 @@ DEPENDENCIES
   pry-stack_explorer
   puma
   pusher
+  rake
   rerun
+  rollbar (~> 2.8.3)
   rspec
   sinatra
   sinatra-contrib
