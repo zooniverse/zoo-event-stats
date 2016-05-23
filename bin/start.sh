@@ -12,7 +12,7 @@ then
     ln -sf /zoo_stats_config/* ./config/
 fi
 
-if [ "$RACK_ENV" == "production" ]; then
+if [ "$RACK_ENV" == "production" ] || [ "$RACK_ENV" == "staging" ]; then
   exec /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
 else
   exec bundle exec foreman start
