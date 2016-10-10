@@ -92,3 +92,8 @@ task :stream => [:download_jars, "streamer.properties"] do |t|
   )
   sh *commands
 end
+
+desc "Run test suite"
+task :test do
+  Dir.glob('./test/*/*_test.rb').each { |file| require file }
+end
