@@ -25,6 +25,6 @@ group :development do
   gem 'foreman'
 end
 
-group :development, :test do
-  gem 'rspec'
+group :test do
+  gem 'minitest'
 end

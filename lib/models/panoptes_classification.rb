@@ -1,3 +1,5 @@
+require_relative '../../lib/geo'
+
 module Models
   class PanoptesClassification < Base
     def id
@@ -14,6 +16,7 @@ module Models
         project_id: links["project"],
         workflow_id: links["workflow"],
         user_id: links["user"],
+        subject_ids: links["subjects"],
         geo: Geo.locate(data["user_ip"])
       }
     end
