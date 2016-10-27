@@ -14,7 +14,7 @@ module Stats
           api.trigger(model.source, model.type, model.attributes)
         end
       rescue Pusher::Error => e
-        puts "Error writing to pusher - #{e.class}"
+        puts "Error writing to pusher - #{e.class} - #{e.message}"
       end
     end
   end
