@@ -24,6 +24,7 @@ module Models
     source = event.fetch("source")
     type   = event.fetch("type")
 
-    REGISTRY.fetch(source, {}).fetch(type, nil).new(event)
+    klass = REGISTRY.fetch(source, {}).fetch(type, nil)
+    klass.new(event) if klass
   end
 end
