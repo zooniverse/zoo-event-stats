@@ -32,6 +32,7 @@ module Models
         workflow_id: link_data("workflow"),
         user_id: link_data("user"),
         subject_ids: link_data("subjects"),
+        subject_urls: event.dig("linked", "subjects", 0, "locations"),
         geo: {}
       }
       assert_equal(expected, panoptes_classification.attributes)
@@ -126,6 +127,11 @@ module Models
            "subjects" => [
               {
                  "id" => "3069945",
+                 "locations" => [
+                   {
+                     "image/jpeg" => "https://panoptes-uploads.zooniverse.org/production/subject_location/5efcf7a2-2a6d-410b-afdf-0913552e5d18.jpeg"
+                   }
+                 ],
                  "metadata" => {
                     "DM" => "35.48",
                     "S/N" => "4.4",
