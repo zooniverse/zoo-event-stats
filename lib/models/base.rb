@@ -37,5 +37,9 @@ module Models
     def links
       data["links"]
     end
+
+    def linked
+      event["linked"]
+    end
   end
 end
