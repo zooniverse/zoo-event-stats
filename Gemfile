@@ -13,7 +13,7 @@ gem 'puma'
 gem 'pusher'
 gem 'geocoder'
 gem 'maxminddb'
-gem 'rollbar', '~> 2.8.3'
+gem 'rollbar'
 
 group :development do
   gem 'rerun'

@@ -77,7 +77,7 @@ GEM
       ffi (>= 0.5.0)
     rerun (0.11.0)
       listen (~> 3.0)
-    rollbar (2.8.3)
+    rollbar (2.14.0)
       multi_json
     ruby_dep (1.5.0)
     sinatra (1.4.8)
@@ -116,10 +116,10 @@ DEPENDENCIES
   pusher
   rake
   rerun
-  rollbar (~> 2.8.3)
+  rollbar
   sinatra
   sinatra-contrib
   sinatra-cross_origin
 
 BUNDLED WITH
-   1.11.2
+   1.14.5
