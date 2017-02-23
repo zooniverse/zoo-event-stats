@@ -13,6 +13,7 @@
 #  permissions and limitations under the License.
 
 require 'open-uri'
+require 'rollbar/rake_tasks'
 
 SAMPLES_DIR = File.dirname(__FILE__)
 JAR_DIR = File.join(SAMPLES_DIR, 'jars')
@@ -96,4 +97,11 @@ end
 desc "Run test suite"
 task :test do
   Dir.glob('./test/**/*_test.rb').each { |file| require file }
+end
+
+desc "Test rollbar integration"
+task :environment do
+  Rollbar.configure do |config |
+    config.access_token = ENV["ROLLBAR_ACCESS_TOKEN"]
+  end
 end
