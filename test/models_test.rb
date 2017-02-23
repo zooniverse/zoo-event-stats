@@ -4,12 +4,12 @@ require_relative '../lib/models'
 class TestModels < Minitest::Test
   def test_unknown_source
     event = {"source" => "unknown", "type" => "classification"}
-    assert_equal(Models.for(event), nil)
+    assert_nil(Models.for(event))
   end
 
   def test_unknown_type
     event = {"source" => "panoptes", "type" => "unknown"}
-    assert_equal(Models.for(event), nil)
+    assert_nil(Models.for(event))
   end
 
   def test_known_type
@@ -17,4 +17,3 @@ class TestModels < Minitest::Test
     assert(Models.for(event).is_a?(Models::PanoptesClassification))
   end
 end
-
