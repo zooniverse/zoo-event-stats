@@ -1,4 +1,4 @@
-FROM ruby:2.3
+FROM zooniverse/ruby:2.3.0
 
 MAINTAINER Campbell Allen
 
