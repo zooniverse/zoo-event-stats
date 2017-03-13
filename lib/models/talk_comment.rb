@@ -2,6 +2,7 @@ module Models
   class TalkComment < Base
     def attributes
       {
+        id: data["id"],
         project_id: data["project_id"],
         board_id: data["board_id"],
         discussion_id: data["discussion_id"],
@@ -11,7 +12,8 @@ module Models
         section: data["section"],
         body: data["body"],
         created_at: data["created_at"],
-        geo: Geo.locate(data["user_ip"])
+        geo: Geo.locate(data["user_ip"]),
+        url: data["url"]
       }
     end
   end
