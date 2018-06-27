@@ -2,7 +2,7 @@
 source "https://rubygems.org"
 
 gem 'rake'
-gem 'aws-kclrb', '1.0.1'
+gem 'aws-kclrb', '=1.0.0'
 gem 'elasticsearch', '~> 1.1.2'
 gem 'faraday_middleware-aws-signers-v4'
 gem 'sinatra'
