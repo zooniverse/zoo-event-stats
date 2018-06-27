@@ -2,7 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     awesome_print (1.7.0)
-    aws-kclrb (1.0.0)
+    aws-kclrb (1.0.1)
       multi_json (~> 1.0)
     aws-sdk (2.7.13)
       aws-sdk-resources (= 2.7.13)
@@ -99,7 +99,7 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_print
-  aws-kclrb (= 1.0.0)
+  aws-kclrb (= 1.0.1)
   elasticsearch (~> 1.1.2)
   faraday_middleware-aws-signers-v4
   foreman
