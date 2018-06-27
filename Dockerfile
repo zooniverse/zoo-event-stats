@@ -5,10 +5,10 @@ MAINTAINER Campbell Allen
 # Apt-get install dependencies
 RUN apt-get update && \
     apt-get -y upgrade && \
-    apt-get install --no-install-recommends -y git supervisor openjdk-7-jre-headless && \
+    apt-get install --no-install-recommends -y git supervisor default-jre-headless && \
     apt-get clean
 
-ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64
+ENV JAVA_HOME /usr/bin/java
 
 WORKDIR /zoo_stats
 RUN mkdir log
