@@ -6,7 +6,7 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    awesome_print (1.7.0)
+    awesome_print (1.8.0)
     aws-kclrb (1.0.0)
       multi_json (~> 1.0)
     aws-sdk (2.7.13)
