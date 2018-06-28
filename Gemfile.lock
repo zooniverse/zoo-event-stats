@@ -32,7 +32,7 @@ GEM
       aws-sdk (~> 2.1)
       faraday (~> 0.9)
     ffi (1.9.25)
-    foreman (0.83.0)
+    foreman (0.85.0)
       thor (~> 0.19.1)
     geocoder (1.4.3)
     httpclient (2.8.3)
