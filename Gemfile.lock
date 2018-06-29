@@ -24,15 +24,15 @@ GEM
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
     debug_inspector (0.0.2)
-    elasticsearch (1.1.2)
-      elasticsearch-api (= 1.1.2)
-      elasticsearch-transport (= 1.1.2)
-    elasticsearch-api (1.1.2)
+    elasticsearch (6.1.0)
+      elasticsearch-api (= 6.1.0)
+      elasticsearch-transport (= 6.1.0)
+    elasticsearch-api (6.1.0)
       multi_json
-    elasticsearch-transport (1.1.2)
+    elasticsearch-transport (6.1.0)
       faraday
       multi_json
-    faraday (0.11.0)
+    faraday (0.15.2)
       multipart-post (>= 1.2, < 3)
     faraday_middleware-aws-signers-v4 (0.1.5)
       aws-sdk (~> 2.1)
@@ -112,7 +112,7 @@ PLATFORMS
 DEPENDENCIES
   awesome_print
   aws-kclrb (= 1.0.0)
-  elasticsearch (~> 1.1.2)
+  elasticsearch (~> 6.1.0)
   faraday_middleware-aws-signers-v4
   foreman
   geocoder
