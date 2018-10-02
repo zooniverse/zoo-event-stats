@@ -50,7 +50,7 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
-    maxminddb (0.1.19)
+    maxminddb (0.1.22)
     method_source (0.9.0)
     minitest (5.11.3)
     multi_json (1.13.1)
