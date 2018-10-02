@@ -85,7 +85,7 @@ module Stats
 
       def query_filters
         return @query_filters if @query_filters
-        filters = { project_id: project_id, workflow_id: workflow_id }
+        filters = { project_id: project_id, workflow_id: workflow_id, user_id: user_id }
         @query_filters = filters.map do |key, value|
           { match: { key => value } } if value
         end.compact
@@ -97,6 +97,10 @@ module Stats
 
       def workflow_id
         @worklfow_id ||= safe(params[:workflow_id])
+      end
+
+      def user_id
+        @user_id ||= safe(params[:user_id])
       end
 
       def safe(input)
