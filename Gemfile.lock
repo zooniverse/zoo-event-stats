@@ -83,7 +83,7 @@ GEM
       ffi (>= 0.5.0, < 2)
     rerun (0.13.0)
       listen (~> 3.0)
-    rollbar (2.16.3)
+    rollbar (2.18.0)
       multi_json
     ruby_dep (1.5.0)
     sinatra (2.0.3)
