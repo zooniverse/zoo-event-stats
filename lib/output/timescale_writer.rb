@@ -1,81 +1,78 @@
-require_relative '../es/client'
+require 'pg'
 
 module Stats
   module Output
     class TimescaleWriter
-      attr_reader :config, :client
+      attr_reader :pg_conn
 
       def initialize
-        @search_client = Stats::Es::Client.new(:stats)
-        @config = @search_client.config
-        @client = @search_client.es_client
-      end
-
-      def health
-        client.cluster.health
-      end
-
-      def get(id)
-        client.get doc_defaults.merge(id: id)
+        # https://www.rubydoc.info/gems/pg/PG/Connection#initialize-instance_method
+        @pg_conn = PG.connect(ENV[PG_CONNECTION_STRING])
       end
 
       def write(models)
-        operations = models.map { |model| operation_for_model(model) }
-        client.bulk body: operations
+        # TODO: Add guard here to only ingest data that meets the schema
+        # avoid ouroboros data and panoptes talk data until we have verified
+        # the schema conformance here
+        # return unless model.type && model.source == panoptes classificaiton
+
+        values_list = models.map do |model|
+          "(#{sql_values(model).join(",")})"
+        end
+
+        # TODO: look at making this a prepared insert statement
+        multi_row_insert_sql = <<~SQL
+        INSERT INTO events #{event_columns}
+        VALUES
+          #{values_list.join(",")}
+        ON CONFLICT ON CONSTRAINT events_pkey
+        DO NOTHING;
+        SQL
+
+        # TODO: look at making this faster using COPY statement
+        # https://infinum.co/the-capsized-eight/superfast-csv-imports-using-postgresqls-copy
+        pg_conn.exec(multi_row_insert_sql)
       end
 
-      def operation_for_model(model)
-        formatter = ModelFormatter.new(model)
-        doc = doc_defaults.merge(
-          data: model.attributes.merge(formatted_data(formatter)),
-          _id: formatter.id,
-          op_type: "create"
-        )
-        {index: doc}
-      end
+      def sql_values(model)
+        # each model should become a row of insert sql
+        # e.g. (1, 'Cheese', 9.99)
+        # see PanoptesClassification for the data details
+        attributes = model.attributes
 
-      def doc_defaults
-        { _index: config[:index], _type: "event" }
-      end
-
-      def formatted_data(formatter)
-        {
-          "event_type" => formatter.type,
-          "event_source" => formatter.source,
-          "event_time" => formatter.time
-        }
+        [
+          model.id,
+          model.type,
+          model.source,
+          model.time,
+          attributes.project_id,
+          attributes.workflow_id,
+          attributes.user_id,
+          remaining_data(model),
+          session_time(model)
+        ]
       end
 
       private
 
-      class ModelFormatter
-        attr_reader :event
+      def event_columns
+        @event_columns ||= %w(event_id event_type event_source event_time project_id workflow_id user_id data session_time).join(',')
+      end
 
-        def initialize(event)
-          @event = event
-        end
+      def remaining_data(model)
+        # TODO: do we want to store the metadata or the diff of the data minus what we have?
+        # attributes.data - attributes already in payload
+      end
 
-        def id
-          event.id
-        end
+      def session_time(model)
+        metadata = model.dig('data','metadata')
+        started_at = started_at['started_at']
+        finished_at = started_at['finished_at']
 
-        def source
-          event.source || "unknown"
-        end
+        # TODO: convert these to time objects
+        # taking into account the TZ info in the string
+        # and subtracting them to find the diff
 
-        def type
-          event.type
-        end
-
-        def time
-          event.timestamp && event.timestamp.to_s
-        end
-
-        private
-
-        def event_type_details
-          event["event_type"].split(".")
-        end
       end
     end
   end

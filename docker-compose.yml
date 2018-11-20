@@ -4,6 +4,14 @@ elasticsearch:
   #   - "9200:9200"
   #   - "9300:9300"
 
+timescale:
+  image: timescale/timescaledb-postgis:1.0.0-pg10
+  environment:
+    - "POSTGRES_USER=zoo_stats"
+    - "POSTGRES_PASSWORD=zoo_stats"
+  ports:
+    - "5432"
+
 zoostats:
   dockerfile: Dockerfile.dev
   build: .
@@ -15,3 +23,4 @@ zoostats:
     CORS_ORIGINS: '(127\.0\.0\.1|localhost|[a-z0-9-]+\.zooniverse\.org)'
   links:
     - elasticsearch
+    - timescale

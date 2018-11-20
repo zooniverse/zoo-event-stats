@@ -14,6 +14,7 @@ gem 'pusher'
 gem 'geocoder'
 gem 'maxminddb'
 gem 'rollbar'
+gem 'pg'
 
 group :development do
   gem 'rerun'
