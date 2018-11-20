@@ -28,7 +28,8 @@ begin
 
   outputs = [
     Stats::Output::ElasticsearchWriter.new,
-    Stats::Output::PusherWriter.new
+    Stats::Output::PusherWriter.new,
+    Stats::Output::TimescaleWriter.new
   ]
 
   processor = Stats::Processor.new(outputs)
