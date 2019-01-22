@@ -30,7 +30,15 @@ node {
 
     if (BRANCH_NAME == 'production') {
         stage('Update production tag') {
-            newImage.push('production')
+            // Ruby API image
+            def apiDockerfile = 'Dockerfile.api'
+            apiImage = docker.build("${dockerRepoName}:production-api", "-f ${apiDockerfile}")
+            apiImage.push('production-api')
+
+            // KCL stream reader image
+            def streamDockerfile = 'Dockerfile.stream'
+            streamImage = docker.build("${dockerRepoName}:production-stream", "-f ${streamDockerfile}")
+            streamImage.push('production-stream')
         }
 
         stage('Deploy to Swarm') {
