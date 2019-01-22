@@ -32,12 +32,12 @@ node {
         stage('Update production tag') {
             // Ruby API image
             def apiDockerfile = 'Dockerfile.api'
-            apiImage = docker.build(dockerImageName, "-f ${apiDockerfile}")
+            apiImage = docker.build("${dockerRepoName}:production-api", "-f ${apiDockerfile}")
             apiImage.push('production-api')
 
             // KCL stream reader image
             def streamDockerfile = 'Dockerfile.stream'
-            streamImage = docker.build(dockerImageName, "-f ${streamDockerfile}")
+            streamImage = docker.build("${dockerRepoName}:production-stream", "-f ${streamDockerfile}")
             streamImage.push('production-stream')
         }
 
