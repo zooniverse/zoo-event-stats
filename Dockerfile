@@ -11,7 +11,6 @@ RUN apt-get update && \
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
 WORKDIR /zoo_stats
-RUN mkdir log
 
 ADD ./Gemfile /zoo_stats/
 ADD ./Gemfile.lock /zoo_stats/

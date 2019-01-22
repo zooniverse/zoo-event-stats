@@ -12,6 +12,10 @@ module Stats
 
       register Sinatra::CrossOrigin
 
+      configure :production, :staging, :development do
+        enable :logging
+      end
+
       get '/counts/?:type?/?:interval?\/?' do
         cross_origin :allow_origin => cors_origins,
           :allowmethods => [:get]
