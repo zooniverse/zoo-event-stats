@@ -46,14 +46,8 @@ node {
                 cd "/var/jenkins_home/jobs/Zooniverse GitHub/jobs/operations/branches/master/workspace" && \
                 ./hermes_wrapper.sh exec StandaloneAppsSwarm -- \
                     docker stack deploy --prune \
-                    -c /opt/infrastructure/stacks/zoo-event-stats-api.yml \
-                    zoo-event-stats-api
-
-                cd "/var/jenkins_home/jobs/Zooniverse GitHub/jobs/operations/branches/master/workspace" && \
-                ./hermes_wrapper.sh exec StandaloneAppsSwarm -- \
-                    docker stack deploy --prune \
-                    -c /opt/infrastructure/stacks/zoo-event-stats-stream.yml \
-                    zoo-event-stats-stream
+                    -c /opt/infrastructure/stacks/zoo-event-stats.yml \
+                    zoo-event-stats
             """
         }
     }
