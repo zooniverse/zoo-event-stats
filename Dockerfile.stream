@@ -24,6 +24,6 @@ EXPOSE 80
 
 ADD ./ /zoo_stats
 
-ADD supervisord.conf /etc/supervisor/conf.d/zoo_event_stats.conf
+ADD supervisord.stream.conf /etc/supervisor/conf.d/zoo_event_stats_stream.conf
 
 ENTRYPOINT /zoo_stats/bin/start.sh
