@@ -1,3 +1,5 @@
+[![pullreminders](https://pullreminders.com/badge.svg)](https://pullreminders.com?ref=badge)
+
 # zoo-event-stats
 Event stream and stats for the Zooniverse
 
