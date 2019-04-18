@@ -33,7 +33,7 @@ pipeline {
       agent any
       steps {
         script {
-          def newImage = docker.build("${dockerRepoName}:production-api-${BRANCH_NAME}", "-f Dockerfile.api .")
+          def newImage = docker.build("${dockerRepoName}:production-api-${GIT_COMMIT}", "-f Dockerfile.api .")
           newImage.push()
         }
       }
@@ -44,7 +44,7 @@ pipeline {
       agent any
       steps {
         script {
-          def newImage = docker.build("${dockerRepoName}:production-stream-${BRANCH_NAME}", "-f Dockerfile.stream .")
+          def newImage = docker.build("${dockerRepoName}:production-stream-${GIT_COMMIT}", "-f Dockerfile.stream .")
           newImage.push()
         }
       }
