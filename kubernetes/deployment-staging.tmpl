@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zoo-event-stats-staging
+  labels:
+    app: zoo-event-stats-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zoo-event-stats-staging
+  template:
+    metadata:
+      labels:
+        app: zoo-event-stats-staging
+    spec:
+      containers:
+        - name: zoo-event-stats-staging
+          image: zooniverse/zoo-event-stats:__IMAGE_TAG__
+          env:
+            - name: RACK_ENV
+              value: staging
+            - name: ZOO_STATS_ENV
+              value: staging
+          volumeMounts:
+            - name: zoo-event-stats-staging-environment
+              mountPath: "/run/secrets/environment"
+              subPath: "environment"
+              readOnly: true
+            - name: zoo-event-stats-staging-elasticsearch
+              mountPath: "/zoo_stats_config/elasticsearch.yml"
+              subPath: "elasticsearch.yml"
+              readOnly: true
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 60
+            periodSeconds: 30
+      volumes:
+        - name: zoo-event-stats-staging-environment
+          secret:
+            secretName: zoo-event-stats-staging-environment
+        - name: zoo-event-stats-staging-elasticsearch
+          secret:
+            secretName: zoo-event-stats-staging-elasticsearch
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zoo-event-stats-staging
+spec:
+  selector:
+    app: zoo-event-stats-staging
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: NodePort
