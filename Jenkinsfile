@@ -1,54 +1,71 @@
 #!groovy
 
-node {
-    checkout scm
+def dockerRepoName = 'zooniverse/zoo-event-stats'
 
-    def dockerRepoName = 'zooniverse/zoo-event-stats'
-    def dockerImageName = "${dockerRepoName}:${BRANCH_NAME}"
-    def newImage = null
+pipeline {
+  agent none
 
+  options {
+    disableConcurrentBuilds()
+  }
+
+  stages {
     stage('Build Docker image') {
-        newImage = docker.build(dockerImageName)
-        newImage.push()
+      agent any
+      steps {
+        script {
+          def dockerImageName = "${dockerRepoName}:${BRANCH_NAME}"
+          def newImage = docker.build(dockerImageName)
+          newImage.push()
+          newImage.push('${GIT_COMMIT}')
+
+          if (BRANCH_NAME == 'master') {
+            stage('Update latest tag') {
+              newImage.push('latest')
+            }
+          }
+        }
+      }
     }
 
-    if (BRANCH_NAME == 'master') {
-        stage('Update latest tag') {
-            newImage.push('latest')
+    stage('Build production API Docker image') {
+      when { tag 'production-release' }
+      agent any
+      steps {
+        script {
+          def newImage = docker.build("${dockerRepoName}:production-api-${BRANCH_NAME}", "-f Dockerfile.api .")
+          newImage.push()
         }
-
-        stage('Deploy to Swarm') {
-            sh """
-                cd "/var/jenkins_home/jobs/Zooniverse GitHub/jobs/operations/branches/master/workspace" && \
-                ./hermes_wrapper.sh exec swarm19a -- \
-                    docker stack deploy --prune \
-                    -c /opt/infrastructure/stacks/zoo-event-stats-staging.yml \
-                    zoo-event-stats-staging
-            """
-        }
+      }
     }
 
-    if (BRANCH_NAME == 'production') {
-        stage('Update production tag') {
-            // Ruby API image
-            def apiDockerfile = 'Dockerfile.api'
-            apiImage = docker.build("${dockerRepoName}:production-api", "-f ${apiDockerfile} .")
-            apiImage.push('production-api')
-
-            // KCL stream reader image
-            def streamDockerfile = 'Dockerfile.stream'
-            streamImage = docker.build("${dockerRepoName}:production-stream", "-f ${streamDockerfile} .")
-            streamImage.push('production-stream')
+    stage('Build production stream Docker image') {
+      when { tag 'production-release' }
+      agent any
+      steps {
+        script {
+          def newImage = docker.build("${dockerRepoName}:production-stream-${BRANCH_NAME}", "-f Dockerfile.stream .")
+          newImage.push()
         }
-
-        stage('Deploy to Swarm') {
-            sh """
-                cd "/var/jenkins_home/jobs/Zooniverse GitHub/jobs/operations/branches/master/workspace" && \
-                ./hermes_wrapper.sh exec swarm19a -- \
-                    docker stack deploy --prune \
-                    -c /opt/infrastructure/stacks/zoo-event-stats.yml \
-                    zoo-event-stats
-            """
-        }
+      }
     }
+
+    stage('Deploy staging to Kubernetes') {
+      when { branch 'master' }
+      agent any
+      steps {
+        sh "kubectl apply --record -f kubernetes/"
+        sh "sed 's/__IMAGE_TAG__/${GIT_COMMIT}/g' kubernetes/deployment-staging.tmpl | kubectl apply --record -f -"
+      }
+    }
+
+    stage('Deploy production to Kubernetes') {
+      when { tag 'production-release' }
+      agent any
+      steps {
+        sh "kubectl apply --record -f kubernetes/"
+        sh "sed 's/__IMAGE_TAG__/${GIT_COMMIT}/g' kubernetes/deployment-production.tmpl | kubectl apply --record -f -"
+      }
+    }
+  }
 }

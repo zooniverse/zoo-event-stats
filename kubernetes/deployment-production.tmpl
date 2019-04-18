@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zoo-event-stats-production-api
+  labels:
+    app: zoo-event-stats-production-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zoo-event-stats-production-api
+  template:
+    metadata:
+      labels:
+        app: zoo-event-stats-production-api
+    spec:
+      containers:
+        - name: zoo-event-stats-production-api
+          image: zooniverse/zoo-event-stats:production-api-__IMAGE_TAG__
+          env:
+            - name: RACK_ENV
+              value: production
+            - name: ZOO_STATS_ENV
+              value: production
+          volumeMounts:
+            - name: zoo-event-stats-production-environment
+              mountPath: "/run/secrets/environment"
+              subPath: "environment"
+              readOnly: true
+            - name: zoo-event-stats-production-elasticsearch
+              mountPath: "/zoo_stats_config/elasticsearch.yml"
+              subPath: "elasticsearch.yml"
+              readOnly: true
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 60
+            periodSeconds: 30
+      volumes:
+        - name: zoo-event-stats-production-environment
+          secret:
+            secretName: zoo-event-stats-production-environment
+        - name: zoo-event-stats-production-elasticsearch
+          secret:
+            secretName: zoo-event-stats-production-elasticsearch
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zoo-event-stats-production-stream
+  labels:
+    app: zoo-event-stats-production-stream
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: zoo-event-stats-production-stream
+  template:
+    metadata:
+      labels:
+        app: zoo-event-stats-production-stream
+    spec:
+      containers:
+        - name: zoo-event-stats-production-stream
+          image: zooniverse/zoo-event-stats:production-stream-__IMAGE_TAG__
+          env:
+            - name: RACK_ENV
+              value: production
+            - name: ZOO_STATS_ENV
+              value: production
+          volumeMounts:
+            - name: zoo-event-stats-production-environment
+              mountPath: "/run/secrets/environment"
+              subPath: "environment"
+              readOnly: true
+            - name: zoo-event-stats-production-elasticsearch
+              mountPath: "/zoo_stats_config/elasticsearch.yml"
+              subPath: "elasticsearch.yml"
+              readOnly: true
+      volumes:
+        - name: zoo-event-stats-production-environment
+          secret:
+            secretName: zoo-event-stats-production-environment
+        - name: zoo-event-stats-production-elasticsearch
+          secret:
+            secretName: zoo-event-stats-production-elasticsearch
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zoo-event-stats-production-api
+spec:
+  selector:
+    app: zoo-event-stats-production-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: NodePort
