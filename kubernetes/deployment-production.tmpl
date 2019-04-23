@@ -62,6 +62,8 @@ spec:
     metadata:
       labels:
         app: zoo-event-stats-production-stream
+      annotations:
+          iam.amazonaws.com/role: microservices-worker-node-Kinesis-Stream-Reader
     spec:
       containers:
         - name: zoo-event-stats-production-stream
