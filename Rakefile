@@ -78,7 +78,7 @@ initialPositionInStream = TRIM_HORIZON
   end
 end
 
-desc "Run KCL sample processor"
+desc "Run KCL stream processor"
 task :stream => [:download_jars, "streamer.properties"] do |t|
   fail "JAVA_HOME environment variable not set."  unless ENV['JAVA_HOME']
 
@@ -104,4 +104,18 @@ task :environment do
   Rollbar.configure do |config |
     config.access_token = ENV["ROLLBAR_ACCESS_TOKEN"]
   end
+end
+
+desc "Seed ElasticSearch with dev data"
+task :seed_es_dev_data do
+  Bundler.require(:default, 'development')
+  require_relative 'lib/config'
+  require_relative 'lib/output/elasticsearch_writer'
+  require_relative 'lib/processor'
+
+  outputs = [ Stats::Output::ElasticsearchWriter.new ]
+  processor = Stats::Processor.new(outputs)
+  events = JSON.parse(File.read('seeds/dev_stream_records.json'))
+  processor.process(events)
+  puts "\n\nLoaded the event data to local elastic search store"
 end
