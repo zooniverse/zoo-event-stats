@@ -55,7 +55,7 @@ Once all the above steps complete you will have a working copy of the checked ou
     * Run: `docker-compose run -T --rm --entrypoint="bundle exec rake test" zoostats`
 
 0. Get a console to interactively run / debug tests
-    * Run: `docker-compose run --rm --entrypoint="/bin/bash" zoostats`
+    * Run: `docker-compose run --rm --entrypoint="/bin/bash" --service-ports zoostats`
     * Then in the container run: `bundle exec rake test`
 
 ### Setup Docker and Docker Compose
