@@ -21,7 +21,7 @@ Get the counts of events that match the event type over the period.
 Valid `$event_type` values are `classification` and `comment`.
 
 Valid `$period` values are `minute`, `hour`, `day`, `week`, `month`, `quarter`, `year`.
-More details at https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-datehistogram-aggregation.html#_calendar_intervals
+More details at [Value ES period values](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-datehistogram-aggregation.html#_calendar_intervals)
 
 This end points returns json data in the format below where the each period will a json object in the buckets list.
 ```
