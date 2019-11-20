@@ -8,7 +8,7 @@ RUN apt-get update && \
     apt-get install --no-install-recommends -y git supervisor default-jre-headless && \
     apt-get clean
 
-ENV JAVA_HOME /usr/bin/java
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
 WORKDIR /zoo_stats
 
