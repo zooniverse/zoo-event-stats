@@ -89,14 +89,26 @@ module Stats
 
       def query_filters
         return @query_filters if @query_filters
-        filters = { project_id: project_id, workflow_id: workflow_id, user_id: user_id }
-        @query_filters = filters.map do |key, value|
+        filters = { workflow_id: workflow_id, user_id: user_id }
+        filters = filters.map do |key, value|
           { match: { key => value } } if value
-        end.compact
+        end
+        # use terms query in combination with the match query
+        # to search for multiple values for the project id field
+        if project_ids
+          filters << {
+            terms: { project_id: project_ids }
+          }
+        end
+        @query_filters = filters.compact
       end
 
-      def project_id
-        @project_id ||= safe(params[:project_id])
+      def project_ids
+        return @project_ids if @project_ids
+
+        if project_id = safe(params[:project_id])
+          @project_ids = [ project_id.split(',') ].flatten.compact.uniq
+        end
       end
 
       def workflow_id
@@ -108,7 +120,7 @@ module Stats
       end
 
       def safe(input)
-        if match = /\A(\d+)\z/.match(input)
+        if match = /\A([\d,]+)\z/.match(input)
           match[1]
         end
       end

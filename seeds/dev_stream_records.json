@@ -1,0 +1,266 @@
+[
+    {
+        "source": "panoptes",
+        "type": "classification",
+        "version": "1.0.0",
+        "timestamp": "2019-11-15T14:22:27Z",
+        "data": {
+            "id": "106251",
+            "created_at": "2019-11-15T14:22:27.072Z",
+            "updated_at": "2019-11-15T14:22:27.188Z",
+            "user_ip": "0.0.0.0",
+            "workflow_version": "0.0",
+            "gold_standard": null,
+            "expert_classifier": null,
+            "annotations": [
+                {
+                    "task": "T1",
+                    "value": [
+                        {
+                            "x": 619.955810546875,
+                            "y": 196.28701782226562,
+                            "tool": 0,
+                            "frame": 0,
+                            "details": []
+                        }
+                    ]
+                }
+            ],
+            "metadata": {
+                "source": "api",
+                "session": "80f3651427ff6e63ffcea5ed3ee1102479f341d88f60c1db84ce948c0cd615ad",
+                "viewport": {
+                    "width": 1280,
+                    "height": 698
+                },
+                "started_at": "2019-11-15T14:22:23.357Z",
+                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36",
+                "utc_offset": "0",
+                "finished_at": "2019-11-15T14:22:26.834Z",
+                "live_project": true,
+                "interventions": {
+                    "opt_in": true,
+                    "messageShown": false
+                },
+                "user_language": "en",
+                "user_group_ids": [],
+                "subject_dimensions": [
+                    {
+                        "clientWidth": 785,
+                        "clientHeight": 262,
+                        "naturalWidth": 1200,
+                        "naturalHeight": 400
+                    }
+                ],
+                "subject_selection_state": {
+                    "retired": false,
+                    "selected_at": "2019-11-15T14:22:23.248Z",
+                    "already_seen": false,
+                    "selection_state": "internal_fallback",
+                    "finished_workflow": false,
+                    "user_has_finished_workflow": false
+                },
+                "workflow_translation_id": "48",
+                "workflow_version": "0.0"
+            },
+            "href": "/classifications/106251",
+            "links": {
+                "project": "450",
+                "user": "27",
+                "workflow": "1034",
+                "subjects": [
+                    "633"
+                ]
+            }
+        },
+        "linked": {
+            "projects": [
+                {
+                    "id": "450",
+                    "display_name": "Penguin Not Watch",
+                    "created_at": "2015-05-08T11:52:16.274Z",
+                    "updated_at": "2019-11-15T14:00:56.506Z",
+                    "href": "/projects/450"
+                }
+            ],
+            "users": [
+                {
+                    "id": "27",
+                    "login": "camallen",
+                    "href": "/users/27"
+                }
+            ],
+            "workflows": [
+                {
+                    "id": "1034",
+                    "display_name": "Count all the penguins",
+                    "retirement": {
+                        "options": {
+                            "count": 15
+                        },
+                        "criteria": "classification_count"
+                    },
+                    "created_at": "2015-05-08T11:54:33.432Z",
+                    "updated_at": "2019-07-08T13:17:26.832Z",
+                    "href": "/workflows/1034"
+                }
+            ],
+            "subjects": [
+                {
+                    "id": "633",
+                    "locations": [
+                        {
+                            "image/png": "https://panoptes-uploads.zooniverse.org/2/0/ce2839cf-a29c-464a-8798-675e7c293265.png"
+                        }
+                    ],
+                    "metadata": {
+                        "RA": 26.776998,
+                        "DEC": -13.55144,
+                        "mag": 18.44,
+                        "mjd": 56657.557,
+                        "filt": "r",
+                        "magerr": 0.26,
+                        "rbscore": 100,
+                        "ThumbURL": "http://www.mso.anu.edu.au/~skymap/smt/dbi/media/zoo/2013-12-31/SKY_J1470647-1333050_sub20140101_030005_0784_r_2014-01-01T00:20:27_12_comp.png",
+                        "candidateID": "SKY_J1470647-1333050"
+                    },
+                    "created_at": "2015-03-16T20:32:44.458Z",
+                    "updated_at": "2015-03-16T20:32:44.458Z",
+                    "href": "/subjects/633"
+                }
+            ]
+        }
+    },
+    {
+        "source": "panoptes",
+        "type": "classification",
+        "version": "1.0.0",
+        "timestamp": "2019-11-15T14:22:48Z",
+        "data": {
+            "id": "106252",
+            "created_at": "2019-11-15T14:22:48.498Z",
+            "updated_at": "2019-11-15T14:22:48.550Z",
+            "user_ip": "0.0.0.0",
+            "workflow_version": "0.0",
+            "gold_standard": null,
+            "expert_classifier": null,
+            "annotations": [
+                {
+                    "task": "T1",
+                    "value": [
+                        {
+                            "x": 994.8304443359375,
+                            "y": 208.42884826660156,
+                            "tool": 0,
+                            "frame": 0,
+                            "details": []
+                        }
+                    ]
+                }
+            ],
+            "metadata": {
+                "source": "api",
+                "session": "80f3651427ff6e63ffcea5ed3ee1102479f341d88f60c1db84ce948c0cd615ad",
+                "viewport": {
+                    "width": 1280,
+                    "height": 698
+                },
+                "started_at": "2019-11-15T14:22:46.829Z",
+                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36",
+                "utc_offset": "0",
+                "finished_at": "2019-11-15T14:22:48.365Z",
+                "live_project": true,
+                "interventions": {
+                    "opt_in": true,
+                    "messageShown": false
+                },
+                "user_language": "en",
+                "user_group_ids": [],
+                "subject_dimensions": [
+                    {
+                        "clientWidth": 785,
+                        "clientHeight": 262,
+                        "naturalWidth": 1200,
+                        "naturalHeight": 400
+                    }
+                ],
+                "subject_selection_state": {
+                    "retired": false,
+                    "selected_at": "2019-11-15T14:22:23.248Z",
+                    "already_seen": false,
+                    "selection_state": "internal_fallback",
+                    "finished_workflow": false,
+                    "user_has_finished_workflow": false
+                },
+                "workflow_translation_id": "48",
+                "workflow_version": "0.0"
+            },
+            "href": "/classifications/106252",
+            "links": {
+                "project": "451",
+                "user": "27",
+                "workflow": "1034",
+                "subjects": [
+                    "733"
+                ]
+            }
+        },
+        "linked": {
+            "projects": [
+                {
+                    "id": "451",
+                    "display_name": "Penguin Not Hot Watch",
+                    "created_at": "2015-05-08T11:52:16.274Z",
+                    "updated_at": "2019-11-15T14:00:56.506Z",
+                    "href": "/projects/451"
+                }
+            ],
+            "users": [
+                {
+                    "id": "27",
+                    "login": "camallen",
+                    "href": "/users/27"
+                }
+            ],
+            "workflows": [
+                {
+                    "id": "1034",
+                    "display_name": "Count all the penguins",
+                    "retirement": {
+                        "options": {
+                            "count": 15
+                        },
+                        "criteria": "classification_count"
+                    },
+                    "created_at": "2015-05-08T11:54:33.432Z",
+                    "updated_at": "2019-07-08T13:17:26.832Z",
+                    "href": "/workflows/1034"
+                }
+            ],
+            "subjects": [
+                {
+                    "id": "733",
+                    "locations": [
+                        {
+                            "image/png": "https://panoptes-uploads.zooniverse.org/2/0/74dede79-92a5-4b60-b988-4342faaabc81.png"
+                        }
+                    ],
+                    "metadata": {
+                        "RA": 64.818124,
+                        "DEC": -61.73279,
+                        "mag": 19.26,
+                        "mjd": 56657.607,
+                        "filt": "g",
+                        "magerr": 0.13,
+                        "rbscore": 0,
+                        "ThumbURL": "http://www.mso.anu.edu.au/~skymap/smt/dbi/media/zoo/2013-12-31/SKY_J4191637-6143584_sub20140101_030005_3378_g_2014-01-01T01:32:22_23_comp.png",
+                        "candidateID": "SKY_J4191637-6143584"
+                    },
+                    "created_at": "2015-03-16T20:34:40.224Z",
+                    "updated_at": "2015-03-16T20:34:40.224Z",
+                    "href": "/subjects/733"
+                }
+            ]
+        }
+    }
+]

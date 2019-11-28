@@ -15,13 +15,17 @@ See [KCLReader](./lib/input/kcl_reader.rb) and [start_stream](./bin/start_stream
 #### API
 The stats service has a json API to query the event counts for projects
 
-##### `GET /counts/$event_type/$period`
+##### `GET /counts/$event_type/$period?user_id=1&project_id=1`
 Get the counts of events that match the event type over the period.
 
 Valid `$event_type` values are `classification` and `comment`.
 
 Valid `$period` values are `minute`, `hour`, `day`, `week`, `month`, `quarter`, `year`.
 More details at [Value ES period values](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-datehistogram-aggregation.html#_calendar_intervals)
+
+Valid `?user_id` values are integers, e.g. `1`
+
+Valid `?project_id` values are integers or a comma seperated list, e.g. `1` or `1,2,3`
 
 This end points returns json data in the format below where the each period will return an object in the buckets list.
 ```
@@ -57,6 +61,9 @@ Once all the above steps complete you will have a working copy of the checked ou
 0. Get a console to interactively run / debug tests
     * Run: `docker-compose run --rm --entrypoint="/bin/bash" --service-ports zoostats`
     * Then in the container run: `bundle exec rake test`
+
+0. Seed some data into elastic search
+    * Then in the container run: `bundle exec rake seed_es_dev_data`
 
 ### Setup Docker and Docker Compose
 
