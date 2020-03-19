@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'sinatra'
 require "sinatra/json"
 require 'sinatra/cross_origin'
@@ -14,6 +16,8 @@ module Stats
 
       configure :production, :staging, :development do
         enable :logging
+        set :search_client, Stats::Es::Client.new(:api)
+        set :elastic_search_client, Proc.new { settings.search_client.es_client }
       end
 
       get '/counts/?:type?/?:interval?\/?' do
@@ -46,8 +50,8 @@ module Stats
       end
 
       def histogram_count
-        es_client.search(
-          index: search_client.config[:index],
+        settings.search_client.es_client.search(
+          index: settings.search_client.config[:index],
           search_type: es_search_type,
           body: event_type_query(event_type).merge(datetime_histogram(interval))
         )
@@ -123,14 +127,6 @@ module Stats
         if match = /\A([\d,]+)\z/.match(input)
           match[1]
         end
-      end
-
-      def search_client
-        @search_client ||= Stats::Es::Client.new(:api)
-      end
-
-      def es_client
-        @es_client ||= search_client.es_client
       end
 
       def cors_origins

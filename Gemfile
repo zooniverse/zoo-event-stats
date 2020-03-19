@@ -5,6 +5,7 @@ gem 'rake'
 gem 'aws-kclrb', '=1.0.0'
 gem 'elasticsearch', '~> 1.1.2'
 gem 'faraday_middleware-aws-signers-v4'
+gem 'faraday_middleware'
 gem "typhoeus"
 gem 'sinatra'
 gem 'sinatra-contrib'
@@ -14,6 +15,7 @@ gem 'pusher'
 gem 'geocoder'
 gem 'maxminddb'
 gem 'rollbar'
+gem 'activesupport'
 
 group :development do
   gem 'rerun'
