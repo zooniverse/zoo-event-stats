@@ -1,5 +1,7 @@
 require_relative '../config'
 require 'faraday_middleware/aws_signers_v4'
+require 'typhoeus'
+require 'typhoeus/adapters/faraday'
 
 module Stats
   module Es
@@ -24,7 +26,7 @@ module Stats
               credentials: Aws::Credentials.new(es_config["aws_key"], es_config["aws_secret"]),
               service_name: 'es',
               region: es_config["aws_region"]
-            f.adapter  Faraday.default_adapter
+            f.adapter :typhoeus
           end
         end
       end

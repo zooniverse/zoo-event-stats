@@ -5,6 +5,7 @@ gem 'rake'
 gem 'aws-kclrb', '=1.0.0'
 gem 'elasticsearch', '~> 1.1.2'
 gem 'faraday_middleware-aws-signers-v4'
+gem "typhoeus"
 gem 'sinatra'
 gem 'sinatra-contrib'
 gem "sinatra-cross_origin"
