@@ -7,7 +7,7 @@ require 'faraday_middleware/aws_signers_v4'
 require 'typhoeus'
 require 'typhoeus/adapters/faraday'
 require 'active_support/cache'
-require 'pry'
+
 module Stats
   module Es
     class Client
