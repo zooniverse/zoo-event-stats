@@ -5,7 +5,7 @@ RUN apt-get update && \
     apt-get install --no-install-recommends -y git supervisor default-jre-headless && \
     apt-get clean
 
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
 ARG RACK_ENV=staging
 ARG REVISION=''
 ENV REVISION=$REVISION
