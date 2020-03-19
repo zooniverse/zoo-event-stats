@@ -15,7 +15,8 @@ pipeline {
       steps {
         script {
           def dockerImageName = "${dockerRepoName}:${BRANCH_NAME}"
-          def newImage = docker.build(dockerImageName)
+          def buildArgs = "--build-arg REVISION='${GIT_COMMIT}' ."
+          def newImage = docker.build(dockerImageName, buildArgs)
           newImage.push()
           newImage.push('${GIT_COMMIT}')
 
@@ -33,7 +34,8 @@ pipeline {
       agent any
       steps {
         script {
-          def newImage = docker.build("${dockerRepoName}:production-api-${GIT_COMMIT}", "-f Dockerfile.api .")
+          def buildArgs = "--build-arg REVISION='${GIT_COMMIT}' -f Dockerfile.api ."
+          def newImage = docker.build("${dockerRepoName}:production-api-${GIT_COMMIT}", buildArgs)
           newImage.push()
         }
       }

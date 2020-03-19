@@ -1,19 +1,26 @@
-elasticsearch:
-  image: elasticsearch:1.5.2
-  # ports:
-  #   - "9200:9200"
-  #   - "9300:9300"
+version: '3'
+services:
+  elasticsearch:
+    image: elasticsearch:1.5.2
+    # ports:
+    #   - "9200:9200"
+    #   - "9300:9300"
 
-zoostats:
-  dockerfile: Dockerfile.dev
-  build: .
-  ports:
-    - "3000:3000"
-  volumes:
-      - ./:/zoo_stats
-  environment:
-    RACK_ENV: development
-    ZOO_STATS_ENV: development
-    CORS_ORIGINS: '(127\.0\.0\.1|localhost|[a-z0-9-]+\.zooniverse\.org)'
-  links:
-    - elasticsearch
+  zoostats:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        RACK_ENV: development
+        REVISION: 559c-fake-revision-string-f9fb
+    ports:
+      - "3000:3000"
+    volumes:
+        - ./:/zoo_stats
+    environment:
+      PORT: 3000
+      RACK_ENV: development
+      ZOO_STATS_ENV: development
+      CORS_ORIGINS: '(127\.0\.0\.1|localhost|[a-z0-9-]+\.zooniverse\.org)'
+    links:
+      - elasticsearch

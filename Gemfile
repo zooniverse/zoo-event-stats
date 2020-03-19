@@ -7,7 +7,6 @@ gem 'elasticsearch', '~> 1.1.2'
 gem 'faraday_middleware-aws-signers-v4'
 gem 'sinatra'
 gem 'sinatra-contrib'
-#CORS regex config
 gem "sinatra-cross_origin"
 gem 'puma'
 gem 'pusher'
@@ -22,7 +21,6 @@ group :development do
   gem 'pry-stack_explorer'
   gem 'pry-rescue'
   gem 'awesome_print'
-  gem 'foreman'
 end
 
 group :test do

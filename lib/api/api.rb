@@ -24,7 +24,7 @@ module Stats
       end
 
       get '/*' do
-        json({ "health" => "ok" })
+        json({ health: 'ok', revision: ENV['REVISION'] })
       end
 
       private
