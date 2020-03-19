@@ -50,7 +50,7 @@ module Stats
       end
 
       def histogram_count
-        settings.search_client.es_client.search(
+        settings.elastic_search_client.search(
           index: settings.search_client.config[:index],
           search_type: es_search_type,
           body: event_type_query(event_type).merge(datetime_histogram(interval))
