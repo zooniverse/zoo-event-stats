@@ -56,10 +56,10 @@ Once all the above steps complete you will have a working copy of the checked ou
     * Run: `docker-compose build`
 
 0. Run the tests
-    * Run: `docker-compose run -T --rm --entrypoint="bundle exec rake test" zoostats`
+    * Run: `docker-compose run -T --rm zoostats bundle exec rake test`
 
 0. Get a console to interactively run / debug tests
-    * Run: `docker-compose run --rm --entrypoint="/bin/bash" --service-ports zoostats`
+    * Run: `docker-compose run --rm --service-ports zoostats /bin/bash`
     * Then in the container run: `bundle exec rake test`
 
 0. Seed some data into elastic search
