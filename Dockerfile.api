@@ -7,6 +7,9 @@ RUN apt-get update && \
 
 WORKDIR /zoo_stats
 
+ARG REVISION=''
+ENV REVISION=$REVISION
+
 ADD ./Gemfile /zoo_stats/
 ADD ./Gemfile.lock /zoo_stats/
 
