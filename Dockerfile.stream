@@ -1,14 +1,11 @@
-FROM ruby:2.3
+FROM ruby:2.6
 
-MAINTAINER Campbell Allen
-
-# Apt-get install dependencies
 RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get install --no-install-recommends -y git supervisor default-jre-headless && \
     apt-get clean
 
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
 
 WORKDIR /zoo_stats
 
@@ -19,8 +16,6 @@ RUN bundle install --without development test
 
 ADD ./Rakefile /zoo_stats/
 RUN rake download_jars
-
-EXPOSE 80
 
 ADD ./ /zoo_stats
 

@@ -1,6 +1,13 @@
-require_relative '../config'
-require 'faraday_middleware/aws_signers_v4'
+# frozen_string_literal: true
 
+require_relative '../config'
+require 'elasticsearch'
+require 'faraday_middleware'
+require 'faraday_middleware/aws_signers_v4'
+require 'typhoeus'
+require 'typhoeus/adapters/faraday'
+require 'active_support/cache'
+require 'pry'
 module Stats
   module Es
     class Client
@@ -16,16 +23,22 @@ module Stats
       private
 
       def build_client
-        if dev_env?
-          Elasticsearch::Client.new(config)
-        else
-          Elasticsearch::Client.new(config) do |f|
+        cache_expires_in = ENV.fetch('CACHE_EXPIRY', 5).to_i
+        cache = ActiveSupport::Cache::MemoryStore.new(
+          expires_in: cache_expires_in.minutes
+        )
+        Elasticsearch::Client.new(config) do |f|
+          f.use FaradayMiddleware::Caching, cache
+
+          # use the middleware signers when talking to the elastic
+          unless dev_env?
             f.request :aws_signers_v4,
               credentials: Aws::Credentials.new(es_config["aws_key"], es_config["aws_secret"]),
               service_name: 'es',
               region: es_config["aws_region"]
-            f.adapter  Faraday.default_adapter
           end
+
+          f.adapter :typhoeus
         end
       end
 
