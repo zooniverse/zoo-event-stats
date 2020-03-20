@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require_relative '../config'
+require_relative 'request_cache'
 require 'elasticsearch'
-require 'faraday_middleware'
 require 'faraday_middleware/aws_signers_v4'
 require 'typhoeus'
 require 'typhoeus/adapters/faraday'
@@ -28,7 +28,7 @@ module Stats
           expires_in: cache_expires_in.minutes
         )
         Elasticsearch::Client.new(config) do |f|
-          f.use FaradayMiddleware::Caching, cache
+          f.use Stats::Es::RequestCache, cache
 
           # use the middleware signers when talking to the elastic
           unless dev_env?
