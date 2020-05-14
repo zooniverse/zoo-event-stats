@@ -17,6 +17,13 @@ spec:
       containers:
         - name: zoo-event-stats-staging
           image: zooniverse/zoo-event-stats:__IMAGE_TAG__
+          resources:
+              requests:
+                memory: "400Mi"
+                cpu: "20m"
+              limits:
+                memory: "400Mi"
+                cpu: "500m"
           env:
             - name: RACK_ENV
               value: staging

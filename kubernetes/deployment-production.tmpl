@@ -17,6 +17,13 @@ spec:
       containers:
         - name: zoo-event-stats-production-api
           image: zooniverse/zoo-event-stats:production-api-__IMAGE_TAG__
+          resources:
+              requests:
+                memory: "300Mi"
+                cpu: "30m"
+              limits:
+                memory: "300Mi"
+                cpu: "500m"
           env:
             - name: RACK_ENV
               value: production
@@ -66,6 +73,13 @@ spec:
       containers:
         - name: zoo-event-stats-production-stream
           image: zooniverse/zoo-event-stats:production-stream-__IMAGE_TAG__
+          resources:
+              requests:
+                memory: "600Mi"
+                cpu: "30m"
+              limits:
+                memory: "600Mi"
+                cpu: "500m"
           env:
             - name: RACK_ENV
               value: production
