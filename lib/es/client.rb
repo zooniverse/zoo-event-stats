@@ -51,7 +51,9 @@ module Stats
       end
 
       def defaults
-        @defaults = { log: es_logging?, index: 'zoo-events' }
+        # reload host connections on failure
+        # https://github.com/elastic/elasticsearch-ruby/tree/1.x/elasticsearch-transport#reloading-hosts
+        @defaults = { log: es_logging?, index: 'zoo-events', reload_on_failure: true }
       end
 
       def es_config
