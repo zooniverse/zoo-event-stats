@@ -38,6 +38,10 @@ module Stats
               region: es_config["aws_region"]
           end
 
+          # add es transport client request logging
+          f.response(:logger, Logger.new($stdout, level: Logger::INFO)) if ENV.fetch('ES_TRANSPORT_LOGGING', false)
+          # specify the underlying transport faraday adatper
+          # https://github.com/elastic/elasticsearch-ruby/tree/1.x/elasticsearch-transport#transport-implementations
           f.adapter :typhoeus
         end
       end
