@@ -52,6 +52,14 @@ pipeline {
       }
     }
 
+    stage('Dry run deployments') {
+      agent any
+      steps {
+        sh "sed 's/__IMAGE_TAG__/${GIT_COMMIT}/g' kubernetes/deployment-staging.tmpl | kubectl --context azure apply --dry-run=server --record -f -"
+        sh "sed 's/__IMAGE_TAG__/${GIT_COMMIT}/g' kubernetes/deployment-production.tmpl | kubectl --context azure apply --dry-run=server --record -f -"
+      }
+    }
+
     stage('Deploy staging to Kubernetes') {
       when { branch 'master' }
       agent any
