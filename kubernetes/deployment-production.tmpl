@@ -81,6 +81,8 @@ spec:
                 memory: "600Mi"
                 cpu: "500m"
           env:
+            - name: ES_TRANSPORT_LOGGING
+              value: true
             - name: RACK_ENV
               value: production
             - name: ZOO_STATS_ENV
