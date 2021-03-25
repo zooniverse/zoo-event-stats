@@ -38,8 +38,9 @@ module Stats
               region: es_config["aws_region"]
           end
 
-          # add es transport client request logging
-          f.response(:logger, Logger.new($stdout, level: Logger::INFO)) if ENV.fetch('ES_TRANSPORT_LOGGING', false)
+          # add es transport client request logging only via $stderr
+          # https://github.com/awslabs/amazon-kinesis-client-ruby/blob/96f149a4a2a5ac215f0cdb26252b0f68afb96d00/samples/sample_kcl.rb#L24-L27
+          f.response(:logger, Logger.new($stderr, level: Logger::INFO)) if ENV.fetch('ES_TRANSPORT_LOGGING', false)
           # specify the underlying transport faraday adatper
           # https://github.com/elastic/elasticsearch-ruby/tree/1.x/elasticsearch-transport#transport-implementations
           f.adapter :typhoeus
