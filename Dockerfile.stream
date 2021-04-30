@@ -16,8 +16,8 @@ ADD ./Gemfile.lock /zoo_stats/
 
 RUN bundle config --global jobs `cat /proc/cpuinfo | grep processor | wc -l | xargs -I % expr % - 1` && \
   if echo "development test" | grep -w "$RACK_ENV"; then \
-  bundle install --with stream development test; \
-  else bundle install --with stream; fi
+  bundle install --without api; \
+  else bundle install --without api development test; fi
 
 ADD ./Rakefile /zoo_stats/
 RUN rake download_jars
