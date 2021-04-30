@@ -38,6 +38,6 @@ services:
     environment:
       ES_TRANSPORT_LOGGING: 'true'
       RACK_ENV: development
-      ZOO_STATS_ENV: test
+      ZOO_STATS_ENV: development
     links:
       - elasticsearch
