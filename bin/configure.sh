@@ -17,4 +17,3 @@ then
     source /run/secrets/environment
 fi
 
-exec /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
