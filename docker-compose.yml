@@ -6,10 +6,10 @@ services:
     #   - "9200:9200"
     #   - "9300:9300"
 
-  zoostats:
+  api:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.api
       args:
         RACK_ENV: development
         REVISION: 559c-fake-revision-string-f9fb
@@ -22,6 +22,22 @@ services:
       ES_TRANSPORT_LOGGING: 'true'
       RACK_ENV: development
       ZOO_STATS_ENV: development
+      PUMA_MAX_THREADS: 2
       CORS_ORIGINS: '(127\.0\.0\.1|localhost|[a-z0-9-]+\.zooniverse\.org)'
+    links:
+      - elasticsearch
+
+  stream:
+    build:
+      context: .
+      dockerfile: Dockerfile.stream
+      args:
+        RACK_ENV: development
+    volumes:
+        - ./:/zoo_stats
+    environment:
+      ES_TRANSPORT_LOGGING: 'true'
+      RACK_ENV: development
+      ZOO_STATS_ENV: test
     links:
       - elasticsearch
