@@ -68,7 +68,7 @@ file "streamer.properties" do
 
   File.open("streamer.properties", "w") do |file|
     file.puts <<-END
-executableName = bin/start_stream
+executableName = bin/start_stream_reader
 streamName = #{stream_name}
 applicationName = #{application_name}
 AWSCredentialsProvider = DefaultAWSCredentialsProviderChain
