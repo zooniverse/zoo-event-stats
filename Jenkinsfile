@@ -10,8 +10,6 @@ pipeline {
   }
 
   stages {
-
-
     stage('Build Docker image') {
       agent any
       steps {
@@ -36,7 +34,7 @@ pipeline {
             def buildArgs = "-f Dockerfile.stream ."
             def newImage = docker.build("${dockerRepoName}:stream-${GIT_COMMIT}", buildArgs)
             newImage.push()
-          }}
+          }
 
           if (BRANCH_NAME == 'master') {
             stage('Update stream image latest tag') {
