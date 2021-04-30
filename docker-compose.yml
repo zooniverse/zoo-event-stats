@@ -22,7 +22,7 @@ services:
       ES_TRANSPORT_LOGGING: 'true'
       RACK_ENV: development
       ZOO_STATS_ENV: development
-      PUMA_MAX_THREADS: 2
+      PUMA_MAX_THREADS: 1
       CORS_ORIGINS: '(127\.0\.0\.1|localhost|[a-z0-9-]+\.zooniverse\.org)'
     links:
       - elasticsearch
