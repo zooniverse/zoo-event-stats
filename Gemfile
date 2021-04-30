@@ -1,29 +1,31 @@
-# A sample Gemfile
-source "https://rubygems.org"
+# frozen_string_literal: true
 
-gem 'rake'
-gem 'aws-kclrb', '=1.0.0'
-gem 'elasticsearch', '~> 1.1.2'
-gem 'faraday_middleware-aws-signers-v4'
-gem 'faraday_middleware'
-gem "typhoeus"
-gem 'sinatra'
-gem 'sinatra-contrib'
-gem "sinatra-cross_origin"
-gem 'puma'
-gem 'pusher'
-gem 'geocoder'
-gem 'maxminddb'
-gem 'rollbar'
+source 'https://rubygems.org'
+
 gem 'activesupport'
+gem 'elasticsearch', '~> 1.1.2'
+gem 'faraday_middleware'
+gem 'faraday_middleware-aws-signers-v4'
+gem 'rake'
+gem 'rollbar'
+gem 'typhoeus'
+
+group :api do
+  gem 'puma'
+  gem 'sinatra'
+  gem 'sinatra-contrib'
+  gem 'sinatra-cross_origin'
+end
+
+group :stream do
+  gem 'aws-kclrb', '=1.0.0'
+  gem 'geocoder'
+  gem 'maxminddb'
+  gem 'pusher'
+end
 
 group :development do
-  gem 'rerun'
   gem 'pry'
-  gem 'pry-byebug'
-  gem 'pry-stack_explorer'
-  gem 'pry-rescue'
-  gem 'awesome_print'
 end
 
 group :test do
