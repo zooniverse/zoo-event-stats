@@ -15,14 +15,14 @@ spec:
         app: zoo-event-stats-staging
     spec:
       containers:
-        - name: zoo-event-stats-staging
-          image: zooniverse/zoo-event-stats:__IMAGE_TAG__
+        - name: zoo-event-stats-staging-api
+          image: zooniverse/zoo-event-stats:api-__IMAGE_TAG__
           resources:
               requests:
-                memory: "400Mi"
+                memory: "100Mi"
                 cpu: "20m"
               limits:
-                memory: "400Mi"
+                memory: "200Mi"
                 cpu: "500m"
           env:
             - name: ES_TRANSPORT_LOGGING
@@ -46,6 +46,31 @@ spec:
               port: 80
             initialDelaySeconds: 60
             periodSeconds: 30
+        - name: zoo-event-stats-staging-stream
+          image: zooniverse/zoo-event-stats:stream-__IMAGE_TAG__
+          resources:
+              requests:
+                memory: "250Mi"
+                cpu: "20m"
+              limits:
+                memory: "300Mi"
+                cpu: "500m"
+          env:
+            - name: ES_TRANSPORT_LOGGING
+              value: 'true'
+            - name: RACK_ENV
+              value: staging
+            - name: ZOO_STATS_ENV
+              value: staging
+          volumeMounts:
+            - name: zoo-event-stats-staging-environment
+              mountPath: "/run/secrets/environment"
+              subPath: "environment"
+              readOnly: true
+            - name: zoo-event-stats-staging-elasticsearch
+              mountPath: "/zoo_stats_config/elasticsearch.yml"
+              subPath: "elasticsearch.yml"
+              readOnly: true
       volumes:
         - name: zoo-event-stats-staging-environment
           secret:
