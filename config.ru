@@ -1,7 +1,7 @@
 require_relative 'lib/config'
 require_relative 'lib/api/api'
 
-Bundler.require(:default, Stats::Config.rack_environment)
+Bundler.require(:default, :api, Stats::Config.rack_environment)
 
 Rollbar.configure do |config|
   enabled = use_async = !Stats::Config.stats_development?
