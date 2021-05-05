@@ -2,23 +2,25 @@ FROM ruby:2.6
 
 RUN apt-get update && \
     apt-get -y upgrade && \
-    apt-get install --no-install-recommends -y git supervisor && \
     apt-get clean
 
 WORKDIR /zoo_stats
 
 ARG REVISION=''
 ENV REVISION=$REVISION
+ARG RACK_ENV=production
+ENV RACK_ENV=$RACK_ENV
 
 ADD ./Gemfile /zoo_stats/
 ADD ./Gemfile.lock /zoo_stats/
 
-RUN bundle install --without development test
+RUN bundle config --global jobs `cat /proc/cpuinfo | grep processor | wc -l | xargs -I % expr % - 1` && \
+  if echo "development test" | grep -w "$RACK_ENV"; then \
+  bundle install --without stream; \
+  else bundle install --without stream development test; fi
 
 EXPOSE 80
 
 ADD ./ /zoo_stats
 
-ADD supervisord.api.conf /etc/supervisor/conf.d/zoo_event_stats_api.conf
-
-ENTRYPOINT /zoo_stats/bin/start.sh
+CMD ["/zoo_stats/bin/start_api.sh"]

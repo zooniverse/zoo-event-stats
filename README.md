@@ -56,14 +56,16 @@ Once all the above steps complete you will have a working copy of the checked ou
     * Run: `docker-compose build`
 
 0. Run the tests
-    * Run: `docker-compose run -T --rm zoostats bundle exec rake test`
+    * Run: `docker-compose run -T --rm api bundle exec rake test`
 
 0. Get a console to interactively run / debug tests
-    * Run: `docker-compose run --rm --service-ports zoostats /bin/bash`
+    * Run: `docker-compose run --rm --service-ports api /bin/bash`
     * Then in the container run: `bundle exec rake test`
 
 0. Seed some data into elastic search
     * Then in the container run: `bundle exec rake seed_es_dev_data`
+
+Note: To update Gems from the api container you'll need to run `bundle install --with stream`. This is due to the way the stream & api docker images differ with how their gems are installed via groups. See `bundle config` in the container for details of what groups are installed.
 
 ### Setup Docker and Docker Compose
 

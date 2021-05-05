@@ -14,15 +14,31 @@ pipeline {
       agent any
       steps {
         script {
-          def dockerImageName = "${dockerRepoName}:${BRANCH_NAME}"
-          def buildArgs = "--build-arg REVISION='${GIT_COMMIT}' ."
-          def newImage = docker.build(dockerImageName, buildArgs)
-          newImage.push()
-          newImage.push('${GIT_COMMIT}')
+          stage('Build API image') {
+            def buildArgs = "--build-arg REVISION='${GIT_COMMIT}' -f Dockerfile.api ."
+            def newImage = docker.build("${dockerRepoName}:api-${GIT_COMMIT}", buildArgs)
+            newImage.push()
+          }
 
           if (BRANCH_NAME == 'master') {
-            stage('Update latest tag') {
-              newImage.push('latest')
+            stage('Update api image latest tag') {
+              // as this repo builds two distinct image artefacts, so after this change
+              // zooniverse/zoo-event-stats:latest doesn't mean anything anymore
+              // instead each image will have it's own latest tag
+              // e.g. zooniverse/zoo-event-stats:api-latest & zooniverse/zoo-event-stats:stream-latest
+              newImage.push('api-latest')
+            }
+          }
+
+          stage('Build Stream Image') {
+            def buildArgs = "-f Dockerfile.stream ."
+            def newImage = docker.build("${dockerRepoName}:stream-${GIT_COMMIT}", buildArgs)
+            newImage.push()
+          }
+
+          if (BRANCH_NAME == 'master') {
+            stage('Update stream image latest tag') {
+              newImage.push('stream-latest')
             }
           }
         }

@@ -2,9 +2,11 @@ FROM ruby:2.6
 
 RUN apt-get update && \
     apt-get -y upgrade && \
-    apt-get install --no-install-recommends -y git supervisor default-jre-headless && \
+    apt-get install --no-install-recommends -y default-jre-headless && \
     apt-get clean
 
+ARG RACK_ENV=production
+ENV RACK_ENV=$RACK_ENV
 ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
 
 WORKDIR /zoo_stats
@@ -12,13 +14,14 @@ WORKDIR /zoo_stats
 ADD ./Gemfile /zoo_stats/
 ADD ./Gemfile.lock /zoo_stats/
 
-RUN bundle install --without development test
+RUN bundle config --global jobs `cat /proc/cpuinfo | grep processor | wc -l | xargs -I % expr % - 1` && \
+  if echo "development test" | grep -w "$RACK_ENV"; then \
+  bundle install --without api; \
+  else bundle install --without api development test; fi
 
 ADD ./Rakefile /zoo_stats/
 RUN rake download_jars
 
 ADD ./ /zoo_stats
 
-ADD supervisord.stream.conf /etc/supervisor/conf.d/zoo_event_stats_stream.conf
-
-ENTRYPOINT /zoo_stats/bin/start.sh
+CMD ["/zoo_stats/bin/start_stream.sh"]

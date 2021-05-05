@@ -68,7 +68,7 @@ file "streamer.properties" do
 
   File.open("streamer.properties", "w") do |file|
     file.puts <<-END
-executableName = bin/start_stream
+executableName = bin/start_stream_reader
 streamName = #{stream_name}
 applicationName = #{application_name}
 AWSCredentialsProvider = DefaultAWSCredentialsProviderChain
@@ -82,7 +82,7 @@ desc "Run KCL stream processor"
 task :stream => [:download_jars, "streamer.properties"] do |t|
   fail "JAVA_HOME environment variable not set."  unless ENV['JAVA_HOME']
 
-  puts "Running the Kinesis sample processing application..."
+  puts "Running the Zooniverse Stats Kinesis stream processor service..."
   classpath = FileList["#{JAR_DIR}/*.jar"].join(':')
   classpath += ":#{SAMPLES_DIR}"
   ENV['PATH'] = "#{ENV['PATH']}:#{SAMPLES_DIR}"
