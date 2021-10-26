@@ -38,12 +38,28 @@ spec:
               mountPath: "/zoo_stats_config/elasticsearch.yml"
               subPath: "elasticsearch.yml"
               readOnly: true
+          startupProbe:
+            httpGet:
+              path: /
+              port: 80
+            # wait 3 * 10 seconds(default periodSeconds) for the container to start
+            # after this succeeds once the liveness probe takes over
+            failureThreshold: 3
           livenessProbe:
             httpGet:
               path: /
               port: 80
-            initialDelaySeconds: 60
+            # allow a longer response time than 1s
+            timeoutSeconds: 10
             periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            # start checking for readiness after 10s (to serve traffic)
+            initialDelaySeconds: 10
+            # allow a longer response time than 1s
+            timeoutSeconds: 10
       volumes:
         - name: zoo-event-stats-production-environment
           secret:
