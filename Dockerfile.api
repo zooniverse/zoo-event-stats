@@ -1,7 +1,9 @@
-FROM ruby:2.6
+FROM ruby:2.6-slim
 
-RUN apt-get update && \
-    apt-get -y upgrade && \
+RUN apt-get update && apt-get -y upgrade && \
+    apt-get install --no-install-recommends -y \
+      build-essential \
+      libcurl4 && \
     apt-get clean
 
 WORKDIR /zoo_stats
