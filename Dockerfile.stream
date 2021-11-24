@@ -4,7 +4,8 @@ RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get install --no-install-recommends -y \
       build-essential \
-      default-jre-headless && \
+      default-jre-headless \
+      libcurl4 && \
     apt-get clean
 
 ARG RACK_ENV=production
