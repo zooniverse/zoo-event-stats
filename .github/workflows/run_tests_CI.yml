@@ -1,0 +1,18 @@
+name: Zooni CI
+on:
+  pull_request:
+  push: { branches: master }
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    services:
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+          bundler-cache: true
+      - name: Run tests
+        run: bundle exec rake test
