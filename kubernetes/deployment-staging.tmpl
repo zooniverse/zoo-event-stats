@@ -19,11 +19,11 @@ spec:
           image: zooniverse/zoo-event-stats:api-__IMAGE_TAG__
           resources:
               requests:
-                memory: "100Mi"
+                memory: "200Mi"
                 cpu: "20m"
               limits:
-                memory: "200Mi"
-                cpu: "500m"
+                memory: "400Mi"
+                cpu: "1000m"
           env:
             - name: RACK_ENV
               value: staging
@@ -70,7 +70,7 @@ spec:
                 cpu: "20m"
               limits:
                 memory: "300Mi"
-                cpu: "500m"
+                cpu: "1000m"
           env:
             - name: RACK_ENV
               value: staging
