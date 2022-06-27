@@ -27,8 +27,17 @@ module Stats
         json format_results(results)
       end
 
-      get '/*' do
+      get '/' do
         json({ health: 'ok', revision: ENV['REVISION'] })
+      end
+
+      # sinkhole 404 & 400 responses
+      error Sinatra::NotFound do
+        [404, json({ message: 'Not Found' })]
+      end
+
+      error Sinatra::BadRequest do
+        [404, json({ message: 'Bad Request' })]
       end
 
       private
