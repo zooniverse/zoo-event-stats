@@ -5,6 +5,7 @@ require "sinatra/json"
 require 'sinatra/cross_origin'
 require_relative '../es/client'
 require 'rollbar/middleware/sinatra'
+require 'active_support'
 
 module Stats
   module Api
