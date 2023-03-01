@@ -11,6 +11,7 @@ gem 'rollbar'
 gem 'typhoeus'
 
 group :api do
+  gem 'circuitbox'
   gem 'puma'
   gem 'sinatra'
   gem 'sinatra-contrib'
