@@ -50,6 +50,7 @@ module Stats
               # https://github.com/yammer/circuitbox/tree/v1.1.1#faraday
               circuit_breaker_options: {
                 sleep_window: 60, # open the circuit / sleep for 1 minute before retrying https://github.com/yammer/circuitbox/blob/89aab2085dbf6f98ff7f8fc40a314103602f98da/lib/circuitbox/circuit_breaker.rb#L18
+                volume_threshold: 1, # number of requests before calculating the error rates
               }
           end
 
@@ -81,7 +82,8 @@ module Stats
       def defaults
         # reload host connections on failure
         # https://github.com/elastic/elasticsearch-ruby/tree/1.x/elasticsearch-transport#reloading-hosts
-        @defaults = { log: es_logging?, index: 'zoo-events', reload_on_failure: true }
+        # and timeout long running requests
+        @defaults = { log: es_logging?, index: 'zoo-events', reload_on_failure: true, request_timeout: ENV.fetch('ES_REQUEST_TIMEOUT', '120').to_i }
       end
 
       def es_config
