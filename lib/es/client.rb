@@ -81,7 +81,8 @@ module Stats
       def defaults
         # reload host connections on failure
         # https://github.com/elastic/elasticsearch-ruby/tree/1.x/elasticsearch-transport#reloading-hosts
-        @defaults = { log: es_logging?, index: 'zoo-events', reload_on_failure: true }
+        # and timeout long running requests
+        @defaults = { log: es_logging?, index: 'zoo-events', reload_on_failure: true, request_timeout: ENV.fetch('ES_REQUEST_TIMEOUT', '120').to_i }
       end
 
       def es_config
