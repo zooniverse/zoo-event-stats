@@ -52,6 +52,7 @@ spec:
             # allow a longer response time than 1s
             timeoutSeconds: 30
             periodSeconds: 30
+            failureThreshold: 6
           readinessProbe:
             httpGet:
               path: /
