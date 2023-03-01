@@ -40,6 +40,11 @@ module Stats
         [404, json({ message: 'Bad Request' })]
       end
 
+      # handle the 503 circuitbreaker errors
+      error Elasticsearch::Transport::Transport::Errors::ServiceUnavailable do
+        [503, json({ message: 'Service unavailable due to overload' })]
+      end
+
       private
 
       def format_results(results)
