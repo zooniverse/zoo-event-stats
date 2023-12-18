@@ -14,26 +14,19 @@ module Stats
 
       register Sinatra::CrossOrigin
 
-      configure :production, :staging, :development do
-        enable :logging
-        set :search_client, Stats::Es::Client.new(:api)
-        set :elastic_search_client, Proc.new { settings.search_client.es_client }
-      end
-
       get '/counts/?:type?/?:interval?\/?' do
         cross_origin :allow_origin => cors_origins,
           :allowmethods => [:get]
-        results = histogram_count
-        json format_results(results)
+        [410, json({ message: 'stats.zooniverse.org is now defunct in favor of our new stats service: eras.zooniverse.org. Please refer to ERAS API Docs: https://zooniverse.github.io/eras.' })]
       end
 
       get '/' do
-        json({ health: 'ok', revision: ENV['REVISION'] })
+        [410, json({ message: 'stats.zooniverse.org is now defunct in favor of our new stats service: eras.zooniverse.org. Please refer to ERAS API Docs: https://zooniverse.github.io/eras.' })]
       end
 
       # sinkhole 404 & 400 responses
       error Sinatra::NotFound do
-        [404, json({ message: 'Not Found' })]
+        [404, json({ message: 'stats.zooniverse.org is now defunct in favor of our new stats service: eras.zooniverse.org. Please refer to ERAS API Docs: https://zooniverse.github.io/eras.' })]
       end
 
       error Sinatra::BadRequest do
