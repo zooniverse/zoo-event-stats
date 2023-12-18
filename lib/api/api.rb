@@ -21,7 +21,7 @@ module Stats
       end
 
       get '/' do
-        [410, json({ message: 'stats.zooniverse.org is now defunct in favor of our new stats service: eras.zooniverse.org. Please refer to ERAS API Docs: https://zooniverse.github.io/eras.' })]
+        [200, json({ message: 'stats.zooniverse.org is now defunct in favor of our new stats service: eras.zooniverse.org. Please refer to ERAS API Docs: https://zooniverse.github.io/eras.' })]
       end
 
       # sinkhole 404 & 400 responses
