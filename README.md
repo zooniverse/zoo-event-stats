@@ -1,5 +1,3 @@
-[![pullreminders](https://pullreminders.com/badge.svg)](https://pullreminders.com?ref=badge)
-
 # zoo-event-stats (DEPRECATED STATS SERVICE. ONLY USED TO PUSH DATA TO PUSHER PUBLIC DATA STREAM)
 
 DEPRECATED STATS SERVICE. Replaced with ERAS: https://github.com/zooniverse/eras. This service is only used to push data to Pusher public data stream. 
