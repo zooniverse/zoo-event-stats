@@ -1,6 +1,7 @@
-# zoo-event-stats (DEPRECATED STATS SERVICE. ONLY USED TO PUSH DATA TO PUSHER PUBLIC DATA STREAM)
+# zoo-event-stats (DEPRECATED STATS SERVICE AND PUSH TO PUSHER SERVICE)
 
-DEPRECATED STATS SERVICE. Replaced with ERAS: https://github.com/zooniverse/eras. This service is only used to push data to Pusher public data stream. 
+DEPRECATED STATS SERVICE. Replaced with ERAS: https://github.com/zooniverse/eras. 
+DEPRECATED PUSH TO PUSHER SERVICE. Replaced with kinesis-to-pusher lambda: https://github.com/zooniverse/kinesis-to-pusher
 
 #### Stream Reader
 
